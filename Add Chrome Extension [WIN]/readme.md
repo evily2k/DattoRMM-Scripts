@@ -18,4 +18,8 @@ Datto Variables:
 **Setup:**
 **Either create a new component in DattoRMM and copy/paste the script file contents into the DattoRMM script window.**
 
+**Or**
+
+**Import the "Add Chrome Extension [WIN].cpt" file**
+
 Then add in both 'chromeExtensionID' and 'installType' variables in the Datto component settings.
