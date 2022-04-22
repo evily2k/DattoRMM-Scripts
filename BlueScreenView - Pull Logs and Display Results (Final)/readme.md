@@ -1,5 +1,5 @@
 # BlueScreenView - Pull Logs and Display Results [WIN]
-**The script will deploy BlueScreenView and outputs dump file into stdout**
+**The script will deploy BlueScreenView and outputs the dump file into stdout**
 
 This allows you to display the bluescreen dump files content in the DattoRMM script output in activity logs.
 
