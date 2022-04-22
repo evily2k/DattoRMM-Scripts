@@ -1,4 +1,11 @@
-#Add Chrome Extensions to PC via extension ID taken from the Chrome Web Store URL
+<#
+TITLE: Add Chrome Extension [WIN]
+PURPOSE: Add Chrome Extensions to PC via extension ID taken from the Chrome Web Store URL
+CREATOR: Dan Meddock
+CREATED: 09DEC2021
+LAST UPDATED: 22APR2022
+#>
+
 #Example Extension ID: cjpalhdlnbpafiamejdnhcphjbkeiagm
 Function New-ChromeExtension {
     
