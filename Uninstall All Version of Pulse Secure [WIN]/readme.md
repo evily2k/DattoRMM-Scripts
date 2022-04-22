@@ -13,3 +13,11 @@ Once the AppData uninstall completes the script will clean up left over registry
 The script will find any HKCU regkeys left over and will backup and delete.
 The installer script creates desktop icons so I added lines to remove those if detected.
 Finally the script will delete any left over Pulse Secure folders left over in AppData.
+
+```
+Datto Settings:
+Category: Script
+Script Type: Powershell
+Icon: PulseSecureUninstall.png
+Level: Low(2)
+```
