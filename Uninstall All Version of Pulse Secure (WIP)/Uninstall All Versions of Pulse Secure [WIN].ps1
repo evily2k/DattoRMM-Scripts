@@ -3,7 +3,7 @@ TITLE: Uninstall All Versions of Pulse Secure [WIN]
 PURPOSE: Uninstall unwanted Pulse Secure versions and clean up program files
 CREATOR: Dan Meddock
 CREATED: 14APR2022
-LAST UPDATED: 21APR2022
+LAST UPDATED: 22APR2022
 #>
 
 # Declarations 
