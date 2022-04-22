@@ -4,7 +4,7 @@
 DattoRMM Script Settings:
 Category: Script
 Script Type: Powershell
-Icon: chromeextension.png
+Icon: bluescreen.png
 Level: Basic(1)
 ```
 **Setup:**
