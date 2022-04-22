@@ -21,3 +21,6 @@ Script Type: Powershell
 Icon: PulseSecureUninstall.png
 Level: Low(2)
 ```
+**Setup:**
+
+**Create a new component in DattoRMM and copy/paste the script file contents into the DattoRMM script window.**
