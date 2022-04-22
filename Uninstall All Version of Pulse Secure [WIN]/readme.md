@@ -15,7 +15,7 @@ The installer script creates desktop icons so I added lines to remove those if d
 Finally the script will delete any left over Pulse Secure folders left over in AppData.
 
 ```
-Datto Settings:
+DattoRMM Script Settings:
 Category: Script
 Script Type: Powershell
 Icon: PulseSecureUninstall.png
