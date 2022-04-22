@@ -22,11 +22,11 @@ Try {
 	Expand-Archive -LiteralPath "$($tempFolder)\bluescreenview.zip" -DestinationPath $tempFolder -Force
 
 	# Run BlueScreenView and export dump to TXT file
-	Start-Process -NoNewWindow -FilePath "C:\Temp\BlueScreenView.exe" -ArgumentList "/stext C:\Temp\bluescreenviewOut.txt"
+	Start-Process -NoNewWindow -FilePath "$($tempFolder)\BlueScreenView.exe" -ArgumentList "/stext $($tempFolder)\bluescreenviewOut.txt"
 	Sleep 5
 	
 	# Display MiniDump log TXT file contents in stdout
-	$bsvLog = get-content C:\Temp\bluescreenviewOut.txt
+	$bsvLog = get-content "$($tempFolder)\bluescreenviewOut.txt"
 	if ($bsvLog){
 		foreach ($log in $bsvLog){
 			Write-Host $log
