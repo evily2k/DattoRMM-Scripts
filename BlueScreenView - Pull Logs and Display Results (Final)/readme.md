@@ -1,5 +1,9 @@
 # BlueScreenView - Pull Logs and Display Results [WIN]
 **The script will deploy BlueScreenView and outputs dump file into stdout**
+
+This allows you to display the bluescreen dump files content in the DattoRMM script output in activity logs.
+
+You can then troubleshoot the bluescreen issue without accessing the device directly.
 ```
 DattoRMM Script Settings:
 Category: Script
