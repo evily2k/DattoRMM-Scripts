@@ -166,6 +166,7 @@ Try{
 	# Delete Desktop Shortcut
 	$scPath = "C:\Users\Public\Desktop\Pulse Secure.lnk"
 	$smPath = "C:\Users\All Users\Start Menu\Pulse Secure.lnk"
+	Write-Host "Deleting Desktop Icons."
 	if($scPath){Remove-Item $scPath -force -ErrorAction SilentlyContinue}
 	if($smPath){Remove-Item $smPath -force -ErrorAction SilentlyContinue}
 	
