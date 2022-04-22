@@ -13,4 +13,4 @@ Level: Basic(1)
 
 **Or**
 
-**Import the "Add Chrome Extension [WIN].cpt" file**
+**Import the "BlueScreenView - Pull Logs and Display Results WIN.cpt" file**
