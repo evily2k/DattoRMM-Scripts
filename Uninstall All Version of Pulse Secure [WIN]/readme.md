@@ -1,4 +1,4 @@
-## Uninstall All Version of Pulse Secure [WIN]
+# Uninstall All Version of Pulse Secure [WIN]
 
 **This script is used as a Datto component.**
 **No additional files or variables are needed with this script.**
