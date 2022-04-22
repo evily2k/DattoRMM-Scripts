@@ -19,7 +19,8 @@ Datto Variables:
     All Users - Machine
 ```
 **Setup:**
-**Either create a new component in DattoRMM and copy/paste the script file contents into the DattoRMM script window.**
+
+**Create a new component in DattoRMM and copy/paste the script file contents into the DattoRMM script window.**
 
 Then add in both 'chromeExtensionID' and 'installType' variables in the Datto component settings.
 
