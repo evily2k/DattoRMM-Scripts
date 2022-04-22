@@ -32,6 +32,7 @@ Try {
 			Write-Host $log
 		}
 	}else{Write-Host "No BlueScreenView data in CSV dump file"}
+	# Exit with a success
 	Exit 0
 }Catch{
 	# Exit with an error if any errors logged
