@@ -1,4 +1,4 @@
-#CyberCNS Agent Deployment [WIN][MAC]
+# CyberCNS Agent Deployment [WIN][MAC]
 **Script to deploy CyberCNS to MacOS and Windows computers**
 
 Select the CCNS agent type when running the script
