@@ -6,8 +6,14 @@ CREATED: 10DEC2021
 LAST UPDATED: 25APR2022
 #>
 
+# Function to output log results to Datto's activity log
+Function writeDattoActivity(){
+	$getLog = @(get-content -path $LogFilePath)
+	foreach ($message in $getLog){write-host $message}
+}
+
+# Main
 If ((Get-ComputerInfo).CsManufacturer -match "Dell"){
-	# Main
 	try {
 		# Declarations
 		$DownloadURL = "https://downloads.dell.com/FOLDER07820512M/1/Dell-Command-Update-Application_8DGG4_WIN_4.4.0_A00.EXE"
@@ -34,9 +40,14 @@ If ((Get-ComputerInfo).CsManufacturer -match "Dell"){
 		if (test-path -path $druLocation32 -pathtype leaf){$druDir = $druLocation32}else{$druDir = $druLocation64}	
 		write-host "Starting Dell Command update."
 		start-process -NoNewWindow -FilePath $druDir -ArgumentList "/applyUpdates -silent -reboot=enable -autoSuspendBitLocker=enable -outputLog=$($DownloadLocation)\dellUpdate.log" -Wait
-		Exit 0
 	}catch{
 		write-host $_.Exception.Message
+		# Write log file output to console to display in Datto logging
+		writeDattoActivity
 		Exit 1
 	}
 }
+
+# Write log file output to console to display in Datto logging
+writeDattoActivity
+exit 0
