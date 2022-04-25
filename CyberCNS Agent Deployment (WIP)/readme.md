@@ -25,7 +25,9 @@ Level: Basic(4)
  
  			curl -k https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent_darwin -O
 			
- - Example for WIN only: $source = 'https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent.exe' 
+ - Example for WIN only: 
+ 		
+			$source = 'https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent.exe' 
 	
 ```
 Script Variables:
