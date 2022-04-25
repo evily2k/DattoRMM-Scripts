@@ -22,11 +22,16 @@ Level: Basic(4)
  - Example: set url="https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent.exe"
 	
 ```
-Variables:
+Script Variables:
 [SELECTION] 'agentType' - (Agent deployment type)
 	- Default Value: Probe
 	- Value Types:
 		Probe - Probe
 		LightWeight - LightWeight
 		Scan - Scan
+Site Variables:
+	'cybercnsclientid' - Obtain value from CCNS agent deployment for that site in CCNS
+	'cybercnsclientsecret' - Obtain value from CCNS agent deployment for that site in CCNS
+	'cybercnsdomain' - Example: set url="https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent.exe"
+	'cybercnscompanyid' - Obtain value from CCNS agent deployment for that site in CCNS
 ```
