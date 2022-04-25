@@ -28,7 +28,8 @@ Level: Basic(4)
  - Example for WIN only: 
  		
 		$source = 'https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent.exe' 
-	
+
+## Variables
 ```
 Script Variables:
 [SELECTION] 'agentType' - (Agent deployment type)
