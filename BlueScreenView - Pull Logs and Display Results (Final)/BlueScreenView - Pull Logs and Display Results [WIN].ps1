@@ -2,7 +2,7 @@
 TITLE: BlueScreenView - Pull Logs and Display Results [WIN]
 PURPOSE: Deploys BlueScreenView and outputs dump file into stdout
 CREATOR: Dan Meddock
-CREATED: 28AUG2021
+CREATED: 29AUG2021
 LAST UPDATED: 22APR2022
 #>
 
