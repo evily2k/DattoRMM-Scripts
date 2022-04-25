@@ -3,7 +3,7 @@ TITLE: Create or Reset Local User Account [WIN]
 PURPOSE: Create a local user with options to change existing users password and add the new or existing user account to the local Administrators group.
 CREATOR: Dan Meddock
 CREATED: 07MAR2022
-LAST UPDATED: 28MAR2022
+LAST UPDATED: 25APR2022
 #>
 
 # Declarations
