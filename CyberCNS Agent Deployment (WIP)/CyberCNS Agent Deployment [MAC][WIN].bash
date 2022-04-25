@@ -25,7 +25,7 @@ else
 		hdiutil detach /Volumes/nmap-7.92
 	fi
 	echo "- CyberCNS Company ID found for $CS_PROFILE_NAME; Downloading CCNS agent."
-	curl -k https://kandeconsultingv2.mycybercns.com/agents/ccnsagent/cybercnsagent_darwin -O
+	curl -k https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent_darwin -O
 	chmod +x cybercnsagent_darwin
 	echo "Installing CyberCNS agent ($agentType)." 
 	sudo ./cybercnsagent_darwin -c $cybercnscompanyid -a $cybercnsclientid -s $cybercnsclientsecret -b $cybercnsdomain -i $agentType
@@ -45,7 +45,7 @@ if NOT DEFINED cybercnscompanyid (
   exit -1
 )
 set /a "exitcode=0"
-set url="https://%SITEURL%.mycybercns.com/agents/ccnsagent/cybercnsagent.exe"
+set url="https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent.exe"
 set file="C:\temp\cybercnsagent.exe"
 set "cybercnscompanyid=!cybercnscompanyid!"
 set "cybercnsclientid=!cybercnsclientid!"
