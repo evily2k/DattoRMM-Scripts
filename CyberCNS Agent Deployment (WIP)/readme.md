@@ -18,17 +18,15 @@ Level: Basic(4)
 **Setup:**
 
 **Create a new component in DattoRMM and copy/paste the script file contents into the DattoRMM script window.**
- - Update the "set url" variable in the Windows Section to your CyberCNS URL
+ - Update the "set url" variable in the Windows Section to your CyberCNS URL so it knows where to download the agent from
+ - Example: set url="https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent.exe"
 	
 ```
 Variables:
-	[SELECTION] 'agentType' - (Agent deployment type)
-		- Default Value: Probe
-		- Value Types:
-			Probe - Probe
-			LightWeight - LightWeight
-			Scan - Scan
+[SELECTION] 'agentType' - (Agent deployment type)
+	- Default Value: Probe
+	- Value Types:
+		Probe - Probe
+		LightWeight - LightWeight
+		Scan - Scan
 ```
-**Or**
-
-**Import the "Create or Reset Local User Account WIN.cpt" file**
