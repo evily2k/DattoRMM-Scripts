@@ -1,7 +1,7 @@
 # CyberCNS Agent Deployment [WIN][MAC]
 **Script to deploy CyberCNS to MacOS and Windows computers**
 
-Select the CCNS agent type when running the script
+The DattoRMM script will prompt to select the CCNS agent type:
   - Probe for scanning the network from that device
   - LightWeight for scanning just that device
   - Scan for unsure(?)
