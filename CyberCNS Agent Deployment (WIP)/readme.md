@@ -27,7 +27,7 @@ Level: Basic(4)
 			
  - Example for WIN only: 
  		
-			$source = 'https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent.exe' 
+		$source = 'https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent.exe' 
 	
 ```
 Script Variables:
