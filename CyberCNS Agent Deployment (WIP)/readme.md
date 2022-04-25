@@ -20,6 +20,7 @@ Level: Basic(4)
 **Create a new component in DattoRMM and copy/paste the script file contents into the DattoRMM script window.**
  - Update the URL variable in the Windows and Mac Sections to your CyberCNS URL so it knows where to download the agent from
  - Example for MAC/WIN: set url="https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent.exe"
+ 
  			curl -k https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent_darwin -O
 			
  - Example for WIN only: $source = 'https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent.exe' 
