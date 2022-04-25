@@ -11,21 +11,18 @@ Select the CCNS agent type when running the script
 ```
 DattoRMM Script Settings:
 Category: Script
-Script Type: Powershell
+Script Type: Batch
 Icon: CCNS-icon.png
 Level: Basic(4)
 ```
 **Setup:**
 
 **Create a new component in DattoRMM and copy/paste the script file contents into the DattoRMM script window.**
+ - Scan for unsure(?)
+	
 ```
 Variables:
-	[BOOLEAN] 'passwordReset' - (Change users password if user already exists)
-		Default Value: True
-	[STRING] 'localAccount' - (Type the username)
-	[BOOLEAN] 'admin' - (Add user to local admin group)
-		Default Value: True
-	[STRING] 'localPassword' - (Type the password)
+	[BOOLEAN] 'agentType' - (Change users password if user already exists)
 ```
 **Or**
 
