@@ -6,7 +6,7 @@ The DattoRMM script will scan for updates, installs updates, if a reboot is requ
 ```
 DattoRMM Script Settings:
 Category: Script
-Script Type: Batch
+Script Type: Powershell
 Icon: dell.png
 Level: Basic(1)
 ```
