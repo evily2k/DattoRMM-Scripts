@@ -5,6 +5,7 @@ Select the CCNS agent type when running the script
   - Probe for scanning the network from that device
   - LightWeight for scanning just that device
   - Scan for unsure(?)
+  
   Note: For MacOS it installs nmap as a prerequisite.
 
 ```
