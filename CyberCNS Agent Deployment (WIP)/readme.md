@@ -21,9 +21,9 @@ Level: Basic(4)
  - Update the URL variable in the Windows and Mac Sections to your CyberCNS URL so it knows where to download the agent from
  - Example for MAC/WIN: 
  
- 			set url="https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent.exe"
+ 		set url="https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent.exe"
  
- 			curl -k https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent_darwin -O
+ 		curl -k https://mysitename.mycybercns.com/agents/ccnsagent/cybercnsagent_darwin -O
 			
  - Example for WIN only: 
  		
