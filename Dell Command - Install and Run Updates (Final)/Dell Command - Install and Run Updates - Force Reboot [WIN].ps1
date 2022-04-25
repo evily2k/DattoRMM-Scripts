@@ -2,7 +2,7 @@
 TITLE: Dell Command - Install and Ran Updates - Force Reboot[WIN]
 PURPOSE: Installs Dell Command, runs scan for updates, installs updates, if a reboot is required it will reboot after the installation completes, suspends bitlocker
 CREATOR: Dan Meddock
-CREATED: 10DEC2021
+CREATED: 09DEC2021
 LAST UPDATED: 25APR2022
 #>
 
