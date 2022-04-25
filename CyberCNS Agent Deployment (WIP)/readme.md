@@ -18,11 +18,16 @@ Level: Basic(4)
 **Setup:**
 
 **Create a new component in DattoRMM and copy/paste the script file contents into the DattoRMM script window.**
- - Scan for unsure(?)
+ - Update the "set url" variable in the Windows Section to your CyberCNS URL
 	
 ```
 Variables:
-	[BOOLEAN] 'agentType' - (Change users password if user already exists)
+	[SELECTION] 'agentType' - (Agent deployment type)
+		- Default Value: Probe
+		- Value Types:
+			Probe - Probe
+			LightWeight - LightWeight
+			Scan - Scan
 ```
 **Or**
 
