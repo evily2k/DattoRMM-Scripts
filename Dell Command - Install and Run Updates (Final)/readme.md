@@ -13,3 +13,7 @@ Level: Basic(1)
 **Setup:**
 
 **Create a new component in DattoRMM and copy/paste the script file contents into the DattoRMM script window.**
+
+**Or**
+
+**Import the "Create or Reset Local User Account WIN.cpt" file**
