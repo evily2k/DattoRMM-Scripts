@@ -2,7 +2,7 @@
 TITLE: CyberCNS Agent Deployment [WIN]
 PURPOSE: Script to deploy CyberCNS to Windows computers
 CREATOR: Dan Meddock
-CREATED: 14FEB2022
+CREATED: 15FEB2022
 LAST UPDATED: 25APR2022
 #>
 
