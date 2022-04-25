@@ -16,4 +16,4 @@ Level: Basic(1)
 
 **Or**
 
-**Import the "Create or Reset Local User Account WIN.cpt" file**
+**Import the "Dell Command - Install and Run Updates - Force Reboot WIN.cpt" file**
