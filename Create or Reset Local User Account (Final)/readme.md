@@ -12,7 +12,7 @@ Level: Basic(3)
 ```
 **Setup:**
 
-**Create a new component in DattoRMM and copy/paste the script file contents into the DattoRMM script window.**
+**Create a new component in DattoRMM and copy/paste the script file contents into the DattoRMM script window and add the following variables.**
 ```
 Variables:
 	[BOOLEAN] 'passwordReset' - (Change users password if user already exists)
