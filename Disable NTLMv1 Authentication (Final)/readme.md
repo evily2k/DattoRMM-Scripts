@@ -13,7 +13,11 @@ Level: Basic(3)
 **Setup:**
 
 **Create a new component in DattoRMM and copy/paste the script file contents into the DattoRMM script window.**
-
+```
+Variables:
+[BOOLEAN] 'EnableNTLMv1' - (Check this box if you want to restore NTLMv1 Authentication)
+	Default Value: False
+```
 **Or**
 
-**Import the "Enable Advanced Powershell Logging with Log Cleanup WIN.cpt" file**
+**Import the "Disable NTLMv1 Authentication WIN.cpt" file**
