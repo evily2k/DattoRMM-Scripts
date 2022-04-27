@@ -2,7 +2,7 @@
 TITLE: Disable IE AutoFill Form [WIN]
 PURPOSE: Script to disable the autofill feature in IE
 CREATOR: Dan Meddock
-CREATED: 14MAR2022
+CREATED: 13MAR2022
 LAST UPDATED: 27APR2022
 #>
 
