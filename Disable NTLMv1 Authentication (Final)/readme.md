@@ -15,8 +15,8 @@ Level: Basic(3)
 **Create a new component in DattoRMM and copy/paste the script file contents into the DattoRMM script window.**
 ```
 Variables:
-	[BOOLEAN] 'EnableNTLMv1' - (Check this box if you want to restore NTLMv1 Authentication)
-		Default Value: False
+[BOOLEAN] 'EnableNTLMv1' - (Check this box if you want to restore NTLMv1 Authentication)
+	Default Value: False
 ```
 **Or**
 
