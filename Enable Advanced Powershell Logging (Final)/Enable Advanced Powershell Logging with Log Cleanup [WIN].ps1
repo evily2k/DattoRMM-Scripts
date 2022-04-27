@@ -2,7 +2,7 @@
 TITLE: Enable Advanced Powershell Logging with Log Cleanup [WIN]
 PURPOSE: Enables Powershell module logging, script block logging, and transcript logging.
 CREATOR: Dan Meddock
-CREATED: 14FEB2022
+CREATED: 15FEB2022
 LAST UPDATED: 27APR2022
 #>
 
