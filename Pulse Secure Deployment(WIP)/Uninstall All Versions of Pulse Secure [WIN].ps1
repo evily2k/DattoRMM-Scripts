@@ -87,7 +87,7 @@ Try{
 			Write-host "Using local admin account $currentUser to schedule removal task."
 		}
 	}else{
-		Write-Host "Using local admin account $currentUser to schedule removal task."
+		Write-Host "Using currently signed in user account $currentUser to schedule Pulse Secure removal task."
 	}
 	
 	# Creates a scheduled task to run as the currently signed in user
@@ -96,12 +96,12 @@ Try{
 			$uninstaller = $appDataLoc + "\uninstall.exe"
 			if(test-path $uninstaller){
 				$action = New-ScheduledTaskAction -Execute $uninstaller -Argument "/S"
-				$trigger = New-ScheduledTaskTrigger -Once -At (get-date).AddSeconds(10)
+				$trigger = New-ScheduledTaskTrigger -Once -At (get-date).AddSeconds(5)
 				$principal = New-ScheduledTaskPrincipal -UserId $currentUser
 				$task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal
 				Register-ScheduledTask PulseSecureDelete -InputObject $task
 				Start-ScheduledTask -TaskName PulseSecureDelete
-				Start-Sleep -Seconds 15
+				Start-Sleep -Seconds 10
 				Unregister-ScheduledTask -TaskName PulseSecureDelete -Confirm:$false
 			}Else{
 				Write-Host "No appdata uninstaller found."
@@ -190,5 +190,4 @@ Try{
 	Exit 0
 }Catch{
 	Write-Error $_.Exception.Message 
-	#Exit 1
 }
