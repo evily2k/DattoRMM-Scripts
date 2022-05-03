@@ -22,26 +22,34 @@ Function SetVPNSettings {
 	
 	switch ($clientName){
 		1{	
-		$location = "Chicago"
-		$locationReg = 'Chicago.pulsepreconfig'
+		$location = "Chi-Ash"
+		$preconfig = 'Chi-AshCC.pulsepreconfig'
 		}
-	    #2{
+	  #2{
 		#$client = ""
 		#$clientReg = ''
 		#}
 	}
+	
 	# Copy over the Pulse secure config file
-	$pulseReg = Join-Path -Path $tempFolder $locationReg
+	$pulseReg = Join-Path -Path $tempFolder $preconfig
 	write-host "Copying site preconfig file to $pulseReg."
-	Copy-Item $locationReg -Destination $pulseReg -force
+	Copy-Item $preconfig -Destination $pulseReg -force
 	
 	# Verify jamCommand exists and then start the preconfig import
-	if(test-path $jamCommand){
-		write-host " Applying config for $location with $pulseReg."
-		Sleep 10
-		start-process -filepath $jamCommand -argumentlist "-importfile $pulseReg"
-	}Else{
-		write-host "No JamCommand file found to import config file with."
+	try{
+		if(test-path $jamCommand){
+			Sleep 10
+			start-process -filepath $jamCommand -argumentlist "-importfile $pulseReg"
+			write-host "Preconfig file has been installed for $location with $pulseReg."
+		}Else{
+			write-host "No JamCommand file found to import config file with."
+			Exit 1
+		}
+	}catch{
+		Write-Host "An error occured. Please check the preconfig file is valid."
+		Write-Error $_.Exception.Message
+		Exit 1
 	}
 }
 
@@ -57,11 +65,12 @@ Try{
 			Write-Host "Pulse Secure Client is already installed."
 			Exit 1
 		}
+		
 		# Transfer installers to computer
 		Write-Host "Transferring installer to device."
 		Copy-Item $application -Destination $pulseInstaller -force
 
-		# Start installation of both applications
+		# Start Pulse Secure application install
 		Write-Host "Starting install of Pulse Secure Client."
 		start-process -filepath $pulseInstaller -argumentlist "/qn"; sleep 30
 		
@@ -79,13 +88,14 @@ Try{
 		
 	}Else{Write-Host "Pulse Secure Client install is set to ""No""."}
 	
-	# Transfer and install connection profile
+	# Transfer and install Pulse Secure connection profiles
 	If($clientName){
-		SetVPNSettings -clientName $clientName
 		Write-host "Applying connection profile for Pulse Secure."
-	}Else{Write-Host "No client VPN settings specified."}
+		SetVPNSettings -clientName $clientName		
+	}Else{Write-Host "No client VPN settings specified."}	
 	Exit 0
-	# Catch any errors thrown
+	
+# Catch any errors thrown and exit with an error
 }catch{
 	Write-Error $_.Exception.Message 
 	Exit 1
