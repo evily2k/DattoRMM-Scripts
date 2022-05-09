@@ -23,6 +23,7 @@ Script Variables:
 	- Value Types:
     		~No Client - Leave value empty
 		Chicago - 1
+		
 [SELECTION] 'installVPN' - (Install Pulse Secure if checked)
 	- Default Value: Yes
 	- Value Types:
