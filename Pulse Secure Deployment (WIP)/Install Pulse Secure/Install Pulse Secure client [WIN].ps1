@@ -22,8 +22,8 @@ Function SetVPNSettings {
 	
 	switch ($clientName){
 		1{	
-		$location = "Chi-Ash"
-		$preconfig = 'Chi-AshCC.pulsepreconfig'
+		$location = "Chicago"
+		$preconfig = 'Chicago.pulsepreconfig'
 		}
 	   #2{
 		#$client = ""
