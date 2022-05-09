@@ -25,25 +25,27 @@ Script Variables:
 [SELECTION] 'clientName' - (Select the client to specify VPN settings)
 	- Default Value: ~No Client
 	- Value Types:
-    	~No Client - Leave value empty
-		  Client 1 - 1
-      Client 2 - 2
-      Client 3 - 3
-      Client 4 - 4
-      Client 5 - 5
-      Client 6 - 6
+    		~No Client - Leave value empty
+		Client 1 - 1
+      		Client 2 - 2
+      		Client 3 - 3
+      		Client 4 - 4
+      		Client 5 - 5
+      		Client 6 - 6
 		
 [SELECTION] 'installVPN' - (Install VPN client if checked.)
 	- Default Value: Yes
 	- Value Types:
-    	No - False
-    	Yes - True
+    		No - False
+    		Yes - True
 ```
 
 ## Files
 
 - Every client name is associated with an exported registry key containing the VPN site settings
 - Use the following command to export your Forticlient registry settings:
+- Attach the exported .reg file to the DattoRMM forticlient install script so the script can use the file
+- Attach a EXE installer of forticlient and name it "FortiClientVPN.exe"
 ```
 reg export HKLM\Software\Fortinet\FortiClient\ C:\temp\client1.reg
 ```
