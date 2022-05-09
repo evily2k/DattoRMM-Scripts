@@ -21,12 +21,12 @@ Script Variables:
 [SELECTION] 'clientName' - (Select the location profile for Pulse Secure)
 	- Default Value: ~No Client
 	- Value Types:
-    ~No Client - Leave value empty
+    		~No Client - Leave value empty
 		Chicago - 1
 [SELECTION] 'installVPN' - (Install Pulse Secure if checked)
-  - Default Value: Yes
-  - Value Types:
-    No - False
-    Yes - True
+	- Default Value: Yes
+	- Value Types:
+    		No - False
+    		Yes - True
 ```
   
