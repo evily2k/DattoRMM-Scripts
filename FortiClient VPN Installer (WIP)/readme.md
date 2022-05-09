@@ -1,12 +1,9 @@
-# CyberCNS Agent Deployment [WIN][MAC]
-**Script to deploy CyberCNS to MacOS and Windows computers**
+# FortiClient VPN Installer with Client Settings [WIN]
+**Script to deploy FortiClient VPN Installer with Client Settings**
 
-The DattoRMM script will prompt to select the CCNS agent type:
-  - Probe for scanning the network from that device
-  - LightWeight for scanning just that device
-  - Scan for unsure(?)
-  
-  Note: For MacOS it installs nmap as a prerequisite.
+**Installs Forticlient 7.0.2.90 VPN agent with options to configure the VPN settings if client name is listed**
+- Select Yes/No to install the VPN client
+- Select a client's VPN configuration or leave unset for generic settings
 
 ```
 DattoRMM Script Settings:
