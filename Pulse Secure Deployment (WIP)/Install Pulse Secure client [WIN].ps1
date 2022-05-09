@@ -25,7 +25,7 @@ Function SetVPNSettings {
 		$location = "Chi-Ash"
 		$preconfig = 'Chi-AshCC.pulsepreconfig'
 		}
-	  #2{
+	   #2{
 		#$client = ""
 		#$clientReg = ''
 		#}
@@ -41,7 +41,7 @@ Function SetVPNSettings {
 		if(test-path $jamCommand){
 			Sleep 10
 			start-process -filepath $jamCommand -argumentlist "-importfile $pulseReg"
-			write-host "Preconfig file has been installed for $location with $pulseReg."
+			write-host "Preconfig file has been applied for $location with $pulseReg."
 		}Else{
 			write-host "No JamCommand file found to import config file with."
 			Exit 1
@@ -55,7 +55,7 @@ Function SetVPNSettings {
 
 # Main
 Try{
-	#Check if Temp folder exsists
+	# Check if Temp folder exsists
 	If(!(test-path $tempFolder -PathType Leaf)){new-item $tempFolder -ItemType Directory -force}
 	
 	# Installs Pulse Secure client
