@@ -53,7 +53,10 @@ Try{
 			echo $installednumber
 			echo $Failednumber
 
-		}until ( ($installednumber + $Failednumber) -ge $updatenumber -or $updatetimeout -ge 90)
+		}until ( ($installednumber + $Failednumber) -ge $updatenumber -or $updatetimeout -ge 60)
+		
+		# Writes log output for DattoRMM
+		Get-Content $DownloadDir\PSWindowsUpdate.log
 
 		#removes schedule task from computer
 		Unregister-ScheduledTask -TaskName PSWindowsUpdate -Confirm:$false

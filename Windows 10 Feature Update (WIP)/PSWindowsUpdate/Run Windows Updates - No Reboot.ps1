@@ -1,19 +1,35 @@
 <#
-TITLE: Update Windows 10 - No Reboot [WIN]
-PURPOSE: Used with PPKG file to force device to update all Dell drivers and software and then runs Windows updates
+TITLE: Get-WindowsUpdates
+Datto Component: Run Windows Updates - No Reboot
+PURPOSE: Using the PSWindowsUpdate Module to run Windows 10 updates and will ignore any system reboots
 CREATOR: Dan Meddock
-CREATED: 27MAY2022
-LAST UPDATED: 01JUL2022
+CREATED: 01APR2022
+LAST UPDATED: 01AUG2022
 #>
+
+# Log Windows Updates output to log file
+Start-Transcript -Path "C:\temp\Windows-Update.log"
+
+# Declarations
+
+# Uncomment this line if you are running this script manually through powershell
+#Set-Executionpolicy -Scope CurrentUser -ExecutionPolicy UnRestricted -Confirm:$False -Force
+Set-ExecutionPolicy Bypass -Scope Process -Force
+
+Try{
+	# Set TLS settings
+	[Net.ServicePointManager]::SecurityProtocol = [Enum]::ToObject([Net.SecurityProtocolType], 3072)
+}Catch [system.exception] {
+	write-host "- ERROR: Could not implement TLS 1.2 Support."
+	write-host "  This can occur on Windows 7 devices lacking Service Pack 1."
+	write-host "  Please install that before proceeding."
+	exit 1
+}
 
 # Function to check for all available Windows updates and instal them
 Function updateWindows {
 	
 	Try{
-		# Enable TLS 1.2 and set execution policy
-		[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-		Set-Executionpolicy -Scope CurrentUser -ExecutionPolicy UnRestricted -Confirm:$False -Force
-		
 		# Check if PowerCLI is installed; if not then install it
 		If(!(Get-InstalledModule PSWindowsUpdate -ErrorAction silentlycontinue)){
 			Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Confirm:$False -Force
@@ -27,20 +43,13 @@ Function updateWindows {
 		$updates = Get-wulist -verbose
 		$updatenumber = ($updates.kb).count
 		
-		# Check if folders exists
+		# Check if folders exis
 		if (!(Test-Path $DownloadDir)){New-Item -ItemType Directory -Path $DownloadDir}
-		
-		# If there are available updates proceed with installing the updates and then reboot the remote machine
-		if ($updates -ne $null){
-				
-			# Check if rebootOption is checked to autoReboot or ignoreReboot
-			if($env:rebootComputer -eq "true"){$rebootOption = '-AutoReboot'}else{$rebootOption = '-IgnoreReboot'}
-			$params = @{$rebootOption = $true}
-			
+
+		#if there are available updates proceed with installing the updates and then reboot the remote machine
+		if ($updates -ne $null){			
 			# Install windows updates, creates a scheduled task on computer -AutoReboot
-			$script = ipmo PSWindowsUpdate; Install-WindowsUpdate -AcceptAll @params -Verbose | Out-File $logFile
-			
-			# Start the Windows update
+			$script = ipmo PSWindowsUpdate; Install-WindowsUpdate -AcceptAll -IgnoreReboot | Out-File $logFile
 			Invoke-WUjob -ComputerName localhost -Script $script -Confirm:$false -RunNow -Verbose
 			 
 			#Show update status until the amount of installed updates equals the same as the amount of updates available
@@ -60,13 +69,18 @@ Function updateWindows {
 				
 			# End loop once all updates complete or timeout limit is hit
 			}until( ($installednumber + $Failednumber) -ge $updatenumber -or $updatetimeout -ge 60)
-			
-			# Writes log output for DattoRMM
-			Get-Content $DownloadDir\PSWindowsUpdate.log
-			
+
 			#removes schedule task from computer
 			Unregister-ScheduledTask -TaskName PSWindowsUpdate -Confirm:$false
-
+			
+			# Display Windows Update log file contents in stdout in DattoRMM
+			$winUpdateLog = get-content $logFile
+			if ($winUpdateLog){
+				foreach ($log in $winUpdateLog){
+					Write-Host $log
+				}
+			}else{Write-Host "No Windows Update log found."}
+			
 			# rename update log
 			$date = Get-Date -Format "MM-dd-yyyy_hh-mm-ss"
 			Rename-Item $DownloadDir\PSWindowsUpdate.log -NewName "WindowsUpdate-$date.log"
@@ -77,5 +91,10 @@ Function updateWindows {
 	}
 }
 
+# Main
+
 # Run Windows updates
 updateWindows
+
+# Stop transcript logging
+Stop-Transcript
