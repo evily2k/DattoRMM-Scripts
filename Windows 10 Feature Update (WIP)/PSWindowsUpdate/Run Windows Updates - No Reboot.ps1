@@ -64,15 +64,15 @@ Function updateWindows {
 				$Failednumber = ([regex]::Matches($updatestatus, "Failed" )).count
 				$ErrorActionPreference = 'Continue'
 				$updatetimeout++
-				echo $installednumber
-				echo $Failednumber
+				Write-Host "Number of installed updates: $installednumber"
+				Write-Host "Number of failed updates: $Failednumber"
 				
 			# End loop once all updates complete or timeout limit is hit
 			}until( ($installednumber + $Failednumber) -ge $updatenumber -or $updatetimeout -ge 60)
 
 			#removes schedule task from computer
 			Unregister-ScheduledTask -TaskName PSWindowsUpdate -Confirm:$false
-			
+
 			# Display Windows Update log file contents in stdout in DattoRMM
 			$winUpdateLog = get-content $logFile
 			if ($winUpdateLog){
@@ -80,7 +80,7 @@ Function updateWindows {
 					Write-Host $log
 				}
 			}else{Write-Host "No Windows Update log found."}
-			
+
 			# rename update log
 			$date = Get-Date -Format "MM-dd-yyyy_hh-mm-ss"
 			Rename-Item $DownloadDir\PSWindowsUpdate.log -NewName "WindowsUpdate-$date.log"
@@ -92,7 +92,6 @@ Function updateWindows {
 }
 
 # Main
-
 # Run Windows updates
 updateWindows
 
