@@ -3,7 +3,7 @@ TITLE: Enable Advanced Powershell Logging [WIN]
 PURPOSE: Enables Powershell module logging, script block logging, and transcript logging.
 CREATOR: Dan Meddock
 CREATED: 14FEB2022
-LAST UPDATED: 11NOV2022
+LAST UPDATED: 04NOV2022
 #>
 
 # Declarations
@@ -102,9 +102,9 @@ Try{
 	Write-Host "Enabling Powershell script transcript logging."
 	Enable-PSScriptTranscriptionLogging
 
-	#Exit 0
+	Exit 0
 	
 }catch{
 	Write-Error $_.Exception.Message 
-	#Exit 1
+	Exit 1
 }
