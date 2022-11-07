@@ -46,7 +46,7 @@ Function updateWindows {
 		# Check if folders exis
 		if (!(Test-Path $DownloadDir)){New-Item -ItemType Directory -Path $DownloadDir}
 
-		#if there are available updates proceed with installing the updates and then reboot the remote machine
+		# If there are available updates proceed with installing the updates and then reboot the remote machine
 		if ($updates -ne $null){			
 			# Check if rebootOption is checked to autoReboot or ignoreReboot
 			if($env:rebootComputer -eq "true"){$rebootOption = '-AutoReboot'}else{$rebootOption = '-IgnoreReboot'}
@@ -58,7 +58,7 @@ Function updateWindows {
 			# Start the Windows update
 			Invoke-WUjob -ComputerName localhost -Script $script -Confirm:$false -RunNow -Verbose
 			 
-			#Show update status until the amount of installed updates equals the same as the amount of updates available
+			# Show update status until the amount of installed updates equals the same as the amount of updates available
 			sleep -Seconds 30
 			
 			# Monitor update log until all updates have been installed
@@ -76,7 +76,7 @@ Function updateWindows {
 			# End loop once all updates complete or timeout limit is hit
 			}until( ($installednumber + $Failednumber) -ge $updatenumber -or $updatetimeout -ge 60)
 
-			#removes schedule task from computer
+			# Removes schedule task from computer
 			Unregister-ScheduledTask -TaskName PSWindowsUpdate -Confirm:$false
 
 			# Display Windows Update log file contents in stdout in DattoRMM
@@ -87,9 +87,13 @@ Function updateWindows {
 				}
 			}else{Write-Host "No Windows Update log found."}
 
-			# rename update log
+			# Rename update log
 			$date = Get-Date -Format "MM-dd-yyyy_hh-mm-ss"
 			Rename-Item $DownloadDir\PSWindowsUpdate.log -NewName "WindowsUpdate-$date.log"
+			
+			# Write time that script completed at
+			$scriptEnd = Get-Date
+			Write-Host "Windows Updates finished at"$scriptEnd
 		}
 	}catch{
 		# Catch any powershell errors and output the error message
