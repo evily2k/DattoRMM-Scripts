@@ -1,5 +1,5 @@
 <#
-TITLE: Enabling Microsoft Defender [WIN]
+TITLE: Enable Microsoft Defender [WIN]
 PURPOSE: Attempts to enable MS Defender
 CREATOR: Dan Meddock
 CREATED: 31AUG2022
