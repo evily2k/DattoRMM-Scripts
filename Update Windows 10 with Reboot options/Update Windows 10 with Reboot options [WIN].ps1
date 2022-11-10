@@ -20,6 +20,7 @@ Try{
 	# Set TLS settings
 	[Net.ServicePointManager]::SecurityProtocol = [Enum]::ToObject([Net.SecurityProtocolType], 3072)
 }Catch [system.exception] {
+	# Catch TLS errors and exit script with a error
 	write-host "- ERROR: Could not implement TLS 1.2 Support."
 	write-host "  This can occur on Windows 7 devices lacking Service Pack 1."
 	write-host "  Please install that before proceeding."
