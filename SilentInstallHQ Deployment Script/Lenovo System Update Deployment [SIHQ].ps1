@@ -18,8 +18,8 @@ $appPath = $appZipPath -replace ".zip",""
 $deploymentTool = join-path -path $appPath -childpath $installPackage
 
 # Commands
-$install = {Powershell.exe -ExecutionPolicy Bypass $deploymentTool -DeploymentType "Install" -DeployMode "NonInteractive"}
-$uninstall = {Powershell.exe -ExecutionPolicy Bypass $deploymentTool -DeploymentType "Uninstall" -DeployMode "NonInteractive"}
+$install = {Powershell.exe -ExecutionPolicy Bypass $deploymentTool -DeploymentType "Install" -DeployMode "silent"}
+$uninstall = {Powershell.exe -ExecutionPolicy Bypass $deploymentTool -DeploymentType "Uninstall" -DeployMode "silent"}
 
 # Check if working directory exists
 If(!(test-path $workingDir -PathType Leaf)){new-item $workingDir -ItemType Directory -force}
