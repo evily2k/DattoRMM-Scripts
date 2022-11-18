@@ -41,10 +41,8 @@ Function Get-SystemUpdates {
 		}
 	}
 
-	<# 
-	Run SU and wait until the Tvsukernel process finishes.
-	Once the Tvsukernel ends, Autopilot flow will continue.
-	#>
+	 
+	# Run SU and wait until the Tvsukernel process finishes.	
 	$su = Join-Path -Path ${env:ProgramFiles(x86)} -ChildPath "Lenovo\System Update\tvsu.exe"
 	&$su /CM | Out-Null
 	Wait-Process -Name Tvsukernel
@@ -52,12 +50,11 @@ Function Get-SystemUpdates {
 	# Disable the default System Update scheduled tasks
 	Get-ScheduledTask -TaskPath "\TVT\" | Disable-ScheduledTask
 
-	##### Disable Scheduler Ability.  
 	# This will prevent System Update from creating the default scheduled tasks when updating to future releases.
 	$sa = "HKLM:\SOFTWARE\WOW6432Node\Lenovo\System Update\Preferences\UserSettings\Scheduler"
 	Set-ItemProperty -Path $sa -Name "SchedulerAbility" -Value "NO"
 
-	##### Create a custom scheduled task for System Update
+	# Create a custom scheduled task for System Update
 	$taskAction = New-ScheduledTaskAction -Execute $su -Argument '/CM'
 	$taskTrigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek Monday -At 9am
 	$taskUserPrincipal = New-ScheduledTaskPrincipal -UserId 'SYSTEM'
