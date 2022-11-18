@@ -1,13 +1,13 @@
 <#
-TITLE: Lenovo System Updates [WIN]
-PURPOSE: Script to install or uninstall Lenovo System Updates (SilentUnstallHQ Template)
+TITLE: Lenovo System Update Tool [WIN]
+PURPOSE: Script to install/uninstall Lenovo System Update with options to check for updates and install them
 CREATOR: Dan Meddock
-CREATED: 25AUG2022
-LAST UPDATED: 25AUG2022
+CREATED: 11NOV2022
+LAST UPDATED: 18NOV2022
 #>
 
 Function Get-SystemUpdates {
-	##### Set SU AdminCommandLine
+	# Set Lenovo System Update AdminCommandLine
 	$RegKey = "HKLM:\SOFTWARE\Policies\Lenovo\System Update\UserSettings\General"
 	$RegName = "AdminCommandLine"
 	$RegValue = "/CM -search A -action INSTALL -includerebootpackages 3 -noicon -noreboot -exporttowmi"
@@ -21,7 +21,7 @@ Function Get-SystemUpdates {
 		New-ItemProperty -Path $RegKey -Name $RegName -Value $RegValue -Force | Out-Null
 	}
 
-	##### Configure SU interface
+	# Configure Lenovo System Update interface
 	$ui = "HKLM:\SOFTWARE\WOW6432Node\Lenovo\System Update\Preferences\UserSettings\General"
 	$values = @{
 
@@ -81,33 +81,44 @@ $deploymentTool = join-path -path $appPath -childpath $installPackage
 $install = {Powershell.exe -ExecutionPolicy Bypass $deploymentTool -DeploymentType "Install" -DeployMode "silent"}
 $uninstall = {Powershell.exe -ExecutionPolicy Bypass $deploymentTool -DeploymentType "Uninstall" -DeployMode "silent"}
 
-# Check if working directory exists
-If(!(test-path $workingDir -PathType Leaf)){new-item $workingDir -ItemType Directory -force}
-
 # Main
 Try{
-	# Transfer installers to computer
-	Write-Host "Transferring $appName deployment tool to device."
-	Copy-Item $appZip -Destination $workingDir -force
-	
-	# Extracting zip file contents
-	Write-Host "Extracting $appName deployment tool."
-	Expand-Archive -LiteralPath $appZipPath -DestinationPath $workingDir -Force
-	
-	# Check if variable is set to install or uninstall
-	If($env:installApp -eq "True"){
-		# Start Lenovo System Update install
-		Write-Host "Starting install of $appName."
-		& $install
-		If($env:getUpdates -eq "True"){
-			Write-Host "Checking for Lenovo System Updates."
-			Get-SystemUpdates
+	if($env:installApp -ne "None"){
+		# Check if working directory exists
+		If(!(test-path $workingDir -PathType Leaf)){new-item $workingDir -ItemType Directory -force}
+		
+		# Transfer installers to computer
+		Write-Host "Transferring $appName deployment tool to device."
+		Copy-Item $appZip -Destination $workingDir -force
+		
+		# Extracting zip file contents
+		Write-Host "Extracting $appName deployment tool."
+		Expand-Archive -LiteralPath $appZipPath -DestinationPath $workingDir -Force
+		
+		# Check if variable is set to install or uninstall
+		If($env:installApp -eq "Uninstall"){
+			# Start Lenovo System Update uninstall
+			Write-Host "Starting uninstall of $appName."
+			& $uninstall
+			Exit 0
 		}
-		Exit 0
+		If($env:installApp -eq "Install"){
+			# Start Lenovo System Update install
+			Write-Host "Starting install of $appName."
+			& $install
+			If($env:getUpdates -eq $true){
+				Write-Host "Checking for system updates and installing any that are found."
+				Get-SystemUpdates
+				Exit 0
+			}
+		}
 	}Else{
-		# Start Lenovo System Update uninstall
-		Write-Host "Starting uninstall of $appName."
-		& $uninstall
+		If($env:getUpdates -eq $true){
+			Write-Host "Checking for system updates and installing any that are found."
+			Get-SystemUpdates
+			Exit 0
+		}
+		Write-Host "No action was taken."
 		Exit 0
 	}
 }Catch{
