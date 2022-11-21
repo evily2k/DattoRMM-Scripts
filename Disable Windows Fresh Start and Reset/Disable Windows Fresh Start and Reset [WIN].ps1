@@ -4,6 +4,21 @@ PURPOSE: The script will create a new registry key to disable Windows Fresh Star
 CREATOR: Dan Meddock
 CREATED: 16NOV2022
 LAST UPDATED: 21NOV2022
+
+DattoRMM Monitor:
+Note: When creating the Datto monitor, do not include any comments
+
+if(test-path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\systemreset.exe"){
+		write-host '<-Start Result->'
+		write-host "STATUS=Disabled"
+		write-host '<-End Result->'
+		Exit 0
+}else{
+		write-host '<-Start Result->'
+		write-host "STATUS=Enabled"
+		write-host '<-End Result->'
+		Exit 1
+}
 #>
 
 # Declarations
