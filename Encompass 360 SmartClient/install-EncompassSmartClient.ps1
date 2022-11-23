@@ -4,6 +4,7 @@ PURPOSE: Installs all the prerequisite applications and any Windows features, th
 INSTALLER: Download install .exe from elliemae.com/getencompass360 and run it to get the install files needed for this script
 			Install components are extracted to %LOCALAPPDATA%\Encompass Installation\SmartClient\
 			Save install components in zip folder called Encompass.zip to be used with this script
+			Put Encompass.zip folder in C:\temp and execute this script.
 CREATOR: Dan Meddock
 CREATED: 22NOV2022
 LAST UPDATED: 23NOV2022
