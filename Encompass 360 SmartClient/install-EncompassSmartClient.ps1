@@ -62,11 +62,21 @@ function addRegistryKeys {
 	}
 }
 
+# Uses VCredist PS module to uninstall all versions of VCredist
+function uninstallVCredist {
+	Install-Module -name VcRedist -force
+	Uninstall-VcRedist -Confirm:$false
+}
+
 Try{
 	# Install or update the Chocolatey software management tool
 	if (!(Test-Path($env:ChocolateyInstall + "\choco.exe"))) {
 		iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
 	}
+	
+	# Uninstall all versions of VCredist before starting SmartClient install
+	Write-Host "Uninstall all versions of Visual C++ Redistributable"
+	uninstallVCredist
 
 	# Install prerequisite applications via Chocolatey
 	Foreach ($app in $preReq){InstallChocoApp}
