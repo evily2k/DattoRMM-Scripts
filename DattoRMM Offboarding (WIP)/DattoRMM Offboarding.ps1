@@ -6,29 +6,27 @@ CREATED: 01JAN2023
 LAST UPDATED: 01JAN2023
 #>
 
-# Log Windows Updates output to log file
-Start-Transcript -Path "C:\KEworking\DattoRMMOffboarding.log"
-
 # Declarations
 $workingDir = "C:\KEworking"
 $dattoMonitor = "checkDatto.ps1"
 $monitorDir = $workingDir + "\" + $dattoMonitor
 
-# Check if Temp folder exists
+# Check if the working directory exists
 If(!(test-path $workingDir -PathType Leaf)){new-item $workingDir -ItemType Directory -force}
 
 # DattoRMM monitor script to uninstall Huntress when Datto is uninstalled
 $monitorScript = @'
-	function checkDatto {
-		if (get-service cagservice -erroraction silentlycontinue){
-			continue
-		}else{
-			start-process "C:\Program Files\Huntress\Uninstall.exe" -argumentlist "/S"
-			Start-Sleep -Seconds 5
-			Unregister-ScheduledTask -TaskName $taskname -Confirm:$false
-		}
+function checkDatto {
+	$taskname = "Datto Offboarding"
+	if (get-service cagservice -erroraction silentlycontinue){
+		continue
+	}else{
+		start-process "C:\Program Files\Huntress\Uninstall.exe" -argumentlist "/S"
+		Start-Sleep -Seconds 5
+		Unregister-ScheduledTask -TaskName $taskname -Confirm:$false
 	}
-	checkDatto
+}
+checkDatto
 '@
 
 # Output scriptblock to directory
@@ -41,6 +39,4 @@ $action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument "-executio
 $trigger =  New-ScheduledTaskTrigger -AtLogOn
 Register-ScheduledTask -Action $action -Trigger $trigger -TaskName $taskname -Description $taskdescription -User "System"
 
-# Stop transcript logging
-Stop-Transcript
 Exit 0
