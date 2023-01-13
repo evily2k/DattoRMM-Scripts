@@ -1,6 +1,6 @@
 <#
 TITLE: DattoRMM Offboarding [WIN]
-PURPOSE: This script creates a scheduled task that runs a script to check if Datto is uninstalled; if it is, it uninstalls Huntress.
+PURPOSE: This script creates a scheduled task that runs a script to check if Datto is uninstalled; if it is, it uninstalls Huntress at logon.
 CREATOR: Dan Meddock
 CREATED: 01JAN2023
 LAST UPDATED: 01JAN2023
