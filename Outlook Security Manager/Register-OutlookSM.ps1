@@ -4,7 +4,7 @@ Datto Component: Registers the Outlook Security Manager DLL files
 PURPOSE: DLLs need to be registered so Outlook Security Manager will work properly.
 CREATOR: Dan Meddock
 CREATED: 13FEB2023
-LAST UPDATED: 14FEB2023
+LAST UPDATED: 13FEB2023
 #>
 
 # Log Register-OutlookSM output to log file
