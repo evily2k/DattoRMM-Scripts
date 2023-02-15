@@ -18,6 +18,7 @@ $appPath = "https://luminate.feshdesk.com"
 $scPath = "C:\Users\Public\Desktop\FreshDesk.lnk"
 $smPath = "C:\Users\All Users\Start Menu\FreshDesk.lnk"
 
+# Main
 Try{
 	# Create Shortcut for application
 	$WshShell = New-Object -comObject WScript.Shell
