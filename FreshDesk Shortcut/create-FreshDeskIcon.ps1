@@ -36,6 +36,7 @@ Try{
 	cp $scPath $smPath
 
 	# Create Shortcut for application - oneliner
+	Write-Host "Adding FreshDesk shortcut to all user's desktop and start menu."
 	$Wsh = New-Object -comObject WScript.Shell;$sc = $Wsh.CreateShortcut($scPath);$sc.TargetPath = $appPath;$sc.Save()
 	
 }Catch{
@@ -45,6 +46,7 @@ Try{
 	Stop-Transcript
 	Exit 1
 }
+Write-Host "Shortcut added successfully."
 # Stop transcript logging
 Stop-Transcript
 Exit 0
