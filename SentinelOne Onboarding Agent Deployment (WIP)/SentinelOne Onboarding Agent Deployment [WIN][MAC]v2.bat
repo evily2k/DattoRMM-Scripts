@@ -49,19 +49,10 @@ echo "Installing Sentinel One using !CS_PROFILE_NAME! Site Token."
 echo !sentinelToken!
 timeout 10
 type C:\temp\SentinelOneInstallLog.txt
-type C:\temp\SentinelOneInstallLog.txt | findstr /R /C:"Product: Sentinel Agent -- Installation failed."
-echo Current errorlevel:
-echo %errorlevel%
-if %errorlevel%==0 (
-	echo SentinelOne failed to install. Check log for more details.
-	Exit 1
-)
-if %errorlevel%==1 (
-	echo SentinelOne install completed without errors.
-	exit 0
-)
-
-Exit 0
+set errorlevel=0
+type C:\temp\SentinelOneInstallLog.txt | findstr /R /C:"Product: Sentinel Agent -- Installation failed." && echo SentinelOne failed to install. Check log for more details (C:\temp\SentinelOneInstallLog.txt). && Exit 1	
+echo SentinelOne install completed without errors.
+exit 0
 
 :installed
 echo "SentinelOne is already installed. Exiting.."

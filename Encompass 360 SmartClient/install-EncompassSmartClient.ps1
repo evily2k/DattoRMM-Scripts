@@ -100,7 +100,7 @@ Try{
 		
 	# Install Amyuni PDF Converter
 	Write-Host "Installing Amyuni PDF Converter..."
-	start-process .\PdfConverter\Install.exe -argumentList "-s" -wait
+	start-process .\PdfConverter\InstallPdfConverter.exe -argumentList "-s" -wait
 	Sleep 5
 	
 	# Install Encompass Document Converter
