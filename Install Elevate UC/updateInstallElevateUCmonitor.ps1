@@ -30,6 +30,13 @@ function get-MSIVersion{
 	}
 }
 
+function write-status{
+	param([String] $MSIPATH)	
+	write-host '<-Start Result->'
+	write-host "STATUS=$MSIPATH"
+	write-host '<-End Result->'	
+}
+
 # Get registry info for Elevate UC installed version
 $elevateReg = $uninstallRegPaths | % {gci -Path $_ | % {get-itemproperty $_.pspath} | ? {$_.DisplayName -match "$varString"}} 
 
@@ -42,34 +49,24 @@ if(((gci $elevateInstaller).CreationTime) -lt (((Get-Date).AddDays(-7)).tostring
 }
 
 if ($elevateReg -eq $null){
-	write-host '<-Start Result->'
-	write-host "STATUS=Not Installed"
-	write-host '<-End Result->'
+	write-status -msipath "Not Installed"
 	Exit 1
 }
 
 If($datetime.DayOfWeek -eq "Monday"){	
 	if ($elevateMSIversion -gt $elevateReg.DisplayVersion){
-		write-host '<-Start Result->'
-		write-host "STATUS=Outdated"
-		write-host '<-End Result->'
+		write-status -msipath "OutDated"
 		exit 1
 	}else{
-		write-host '<-Start Result->'
-		write-host "STATUS=UpToDate"
-		write-host '<-End Result->'			
+		write-status -msipath "UpToDate"			
 		exit 0
 	}
 }else{
 	if ($elevateMSIversion -gt $elevateReg.DisplayVersion){
-		write-host '<-Start Result->'
-		write-host "STATUS=Outdated"
-		write-host '<-End Result->'
+		write-status -msipath "OutDated"
 		exit 0
 	}else{
-		write-host '<-Start Result->'
-		write-host "STATUS=UpToDate"
-		write-host '<-End Result->'			
+		write-status -msipath "UpToDate"			
 		exit 0
 	}
 }
