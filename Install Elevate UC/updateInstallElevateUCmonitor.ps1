@@ -31,9 +31,9 @@ function get-MSIVersion{
 }
 
 function write-status{
-	param([String] $MSIPATH)	
+	param([String] $status)	
 	write-host '<-Start Result->'
-	write-host "STATUS=$MSIPATH"
+	write-host "STATUS=$status"
 	write-host '<-End Result->'	
 }
 
@@ -49,24 +49,24 @@ if(((gci $elevateInstaller).CreationTime) -lt (((Get-Date).AddDays(-7)).tostring
 }
 
 if ($elevateReg -eq $null){
-	write-status -msipath "Not Installed"
+	write-status -status "Not Installed"
 	Exit 1
 }
 
 If($datetime.DayOfWeek -eq "Monday"){	
 	if ($elevateMSIversion -gt $elevateReg.DisplayVersion){
-		write-status -msipath "OutDated"
+		write-status -status "OutDated"
 		exit 1
 	}else{
-		write-status -msipath "UpToDate"			
+		write-status -status "UpToDate"			
 		exit 0
 	}
 }else{
 	if ($elevateMSIversion -gt $elevateReg.DisplayVersion){
-		write-status -msipath "OutDated"
+		write-status -status "OutDated"
 		exit 0
 	}else{
-		write-status -msipath "UpToDate"			
+		write-status -status "UpToDate"			
 		exit 0
 	}
 }
