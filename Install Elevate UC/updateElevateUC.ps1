@@ -53,7 +53,7 @@ try{
 	}
 
 	#Check if Temp folder exists; if not create it
-	If(!(test-path $workingDir -PathType Leaf)){new-item $workingDir -ItemType Directory -force}
+	If(!(test-path $workingDir -PathType Leaf)){new-item $workingDir -ItemType Directory -force | Out-Null}
 
 	# Download the Elevvate UC latest MSI installer
 	Invoke-WebRequest -OutFile $elevateInstaller -uri $downloadURL
