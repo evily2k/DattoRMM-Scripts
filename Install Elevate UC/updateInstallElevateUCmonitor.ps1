@@ -44,7 +44,7 @@ $elevateReg = $uninstallRegPaths | % {gci -Path $_ | % {get-itemproperty $_.pspa
 $elevateMSIversion = get-MSIVersion -MSIPath $elevateInstaller
 
 if(((gci $elevateInstaller).CreationTime) -lt (((Get-Date).AddDays(-7)).tostring("yyyy-M-dd"))){
-		If(!(test-path $workingDir -PathType Leaf)){new-item $workingDir -ItemType Directory -force}
+		If(!(test-path $workingDir -PathType Leaf)){new-item $workingDir -ItemType Directory -force | Out-Null}
 		Invoke-WebRequest -OutFile $elevateInstaller -uri $downloadURL
 }
 
