@@ -1,16 +1,17 @@
 <#
-TITLE: RingCentral App Deployment [WIN]
-PURPOSE: Script to install or uninstall the RingCentral App (SilentUnstallHQ Template)
+TITLE: LibreOffice [WIN]
+PURPOSE: Script to install or uninstall LibreOffice SilentUnstallHQ's PSAppDeployToolkit
+Reference URL: https://silentinstallhq.com/libreoffice-install-and-uninstall-powershell/
 CREATOR: Dan Meddock
-CREATED: 26MAY2023
+CREATED: 30DEC2022
 LAST UPDATED: 26MAY2023
 #>
 
 # Declarations
 $workingDir = "C:\Temp"
-$appZip = 'RingCentralApp.zip'
-$installPackage = "Deploy-RingCentralApp.ps1"
-$appName = "RingCentral App"
+$appZip = 'LibreOffice.zip'
+$installPackage = "Deploy-LibreOffice.ps1"
+$appName = "LibreOffice"
 
 # Paths and Variable manipulation (dont change)
 $appZipPath = join-path -path $workingDir -childpath $appZip
