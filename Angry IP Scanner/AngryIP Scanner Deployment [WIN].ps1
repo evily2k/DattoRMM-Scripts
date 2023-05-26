@@ -1,17 +1,17 @@
 <#
-TITLE: RingCentral App Deployment [WIN]
-PURPOSE: Script to install or uninstall the RingCentral App using SilentUnstallHQ's PSAppDeployToolkit
-Reference URL: https://silentinstallhq.com/ringcentral-app-install-and-uninstall-powershell/
+TITLE: Angry IP Scanner [WIN]
+PURPOSE: Script to install or uninstall Angry IP Scanner using SilentUnstallHQ's PSAppDeployToolkit
+Reference URL: https://silentinstallhq.com/angry-ip-scanner-install-and-uninstall-powershell/
 CREATOR: Dan Meddock
-CREATED: 26MAY2023
+CREATED: 25AUG2022
 LAST UPDATED: 26MAY2023
 #>
 
 # Declarations
 $workingDir = "C:\Temp"
-$appZip = 'RingCentralApp.zip'
-$installPackage = "Deploy-RingCentralApp.ps1"
-$appName = "RingCentral App"
+$appZip = 'AngryIPScanner.zip'
+$installPackage = "Deploy-AngryIPScanner.ps1"
+$appName = "Angry IP Scanner"
 
 # Paths and Variable manipulation (dont change)
 $appZipPath = join-path -path $workingDir -childpath $appZip

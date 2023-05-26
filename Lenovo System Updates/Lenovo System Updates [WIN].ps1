@@ -1,17 +1,17 @@
 <#
-TITLE: RingCentral App Deployment [WIN]
-PURPOSE: Script to install or uninstall the RingCentral App using SilentUnstallHQ's PSAppDeployToolkit
-Reference URL: https://silentinstallhq.com/ringcentral-app-install-and-uninstall-powershell/
+TITLE: Lenovo System Updates [WIN]
+PURPOSE: Script to install or uninstall Lenovo System Updates using SilentUnstallHQ's PSAppDeployToolkit
+Reference URL: https://silentinstallhq.com/lenovo-system-update-install-and-uninstall-powershell/
 CREATOR: Dan Meddock
-CREATED: 26MAY2023
+CREATED: 25AUG2022
 LAST UPDATED: 26MAY2023
 #>
 
 # Declarations
-$workingDir = "C:\Temp"
-$appZip = 'RingCentralApp.zip'
-$installPackage = "Deploy-RingCentralApp.ps1"
-$appName = "RingCentral App"
+$workingDir = "C:\temp"
+$appZip = 'LenovoSU.zip'
+$installPackage = "Deploy-LenovoSU.ps1"
+$appName = "Lenovo System Update"
 
 # Paths and Variable manipulation (dont change)
 $appZipPath = join-path -path $workingDir -childpath $appZip
