@@ -1,0 +1,36 @@
+Script Name: Block-Windows11Update
+Purpose:
+This script is designed to lock down a Windows 10 build to version 22H2, preventing automatic updates to Windows 11.
+
+Creator:
+Dan Meddock
+
+Created:
+17th May 2023
+
+Last Updated:
+17th May 2023
+
+Usage:
+This script is intended to be executed on Windows 10 systems. It checks the operating system version and product type to ensure it is running Windows 10. If the conditions are met, it performs the following actions:
+
+Creates the registry key HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate if it doesn't already exist.
+Sets the value of the registry property ProductVersion to "Windows 10" as a string data type.
+Sets the value of the registry property TargetReleaseVersion to 1 as a DWORD (32-bit integer) data type.
+Sets the value of the registry property TargetReleaseVersionInfo to the value of the environment variable TargetVersion as a string data type.
+Sets the value of the registry property $ENV:usrUDF in the HKLM:\SOFTWARE\CentraStage key to "Blocked Windows 11 Update." as a string data type.
+Outputs a success message indicating that the value has been written to the user-defined field.
+If the operating system is not Windows 10, the script displays a message indicating that the computer OS is not Windows 10.
+
+Script Logic:
+Retrieves the system information using the Get-CimInstance cmdlet with the Win32_OperatingSystem class. Any errors encountered during this process are treated as terminating errors.
+Sets the $regPath variable to the registry path HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate.
+Begins the main execution block with a Try statement to catch any errors that may occur.
+Checks if the operating system version is greater than or equal to "10.0.10240" (Windows 10) and the product type is equal to 1 (Workstation). If the conditions are met, proceeds with the next steps; otherwise, displays a message that the computer OS is not Windows 10 and exits with an exit code of 1.
+Checks if the registry path $regPath exists. If not, creates the registry key using the New-Item cmdlet with the -Force and -Verbose parameters.
+Sets the values of the registry properties using the Set-ItemProperty cmdlet. The properties modified include ProductVersion, TargetReleaseVersion, TargetReleaseVersionInfo, and a user-defined property in HKLM:\SOFTWARE\CentraStage.
+Outputs a success message indicating that the value has been written to the user-defined field.
+Exits the script with an exit code of 0.
+If any errors occur during the execution, they are caught by the Catch block, and an error message is displayed with details of the exception.
+
+That concludes the technical documentation for the Block-Windows11Update script.
