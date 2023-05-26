@@ -1,17 +1,17 @@
 <#
-TITLE: Angry IP Scanner [WIN]
-PURPOSE: Script to install or uninstall Angry IP Scanner using SilentUnstallHQ's PSAppDeployToolkit
-Reference URL: https://silentinstallhq.com/angry-ip-scanner-install-and-uninstall-powershell/
+TITLE: Thunderbird [WIN]
+PURPOSE: Script to install or uninstall Thunderbird using SilentUnstallHQ's PSAppDeployToolkit
+Reference URL: https://silentinstallhq.com/mozilla-thunderbird-install-and-uninstall-powershell/
 CREATOR: Dan Meddock
-CREATED: 25AUG2022
+CREATED: 30DEC2022
 LAST UPDATED: 26MAY2023
 #>
 
 # Declarations
 $workingDir = "C:\Temp"
-$appZip = 'AngryIPScanner.zip'
-$installPackage = "Deploy-AngryIPScanner.ps1"
-$appName = "Angry IP Scanner"
+$appZip = 'Thunderbird.zip'
+$installPackage = "Deploy-Thunderbird.ps1"
+$appName = "Thunderbird"
 
 # Paths and Variable manipulation (dont change)
 $appZipPath = join-path -path $workingDir -childpath $appZip

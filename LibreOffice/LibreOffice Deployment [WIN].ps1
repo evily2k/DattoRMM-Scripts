@@ -1,6 +1,6 @@
 <#
 TITLE: LibreOffice [WIN]
-PURPOSE: Script to install or uninstall LibreOffice SilentUnstallHQ's PSAppDeployToolkit
+PURPOSE: Script to install or uninstall LibreOffice using SilentUnstallHQ's PSAppDeployToolkit
 Reference URL: https://silentinstallhq.com/libreoffice-install-and-uninstall-powershell/
 CREATOR: Dan Meddock
 CREATED: 30DEC2022
@@ -36,12 +36,11 @@ Try{
 	Write-Host "Extracting $appName deployment tool."
 	Expand-Archive -LiteralPath $appZipPath -DestinationPath $workingDir -Force
 	
-	# Start the application install
+	# Start the application install or uninstall process
 	If($env:installApp -eq "True"){
 		Write-Host "Starting install of $appName."
 		& $install
 	}
-	# Start the application uninstall
 	If($env:installApp -eq "False"){
 		Write-Host "Starting uninstall of $appName."
 		& $uninstall
