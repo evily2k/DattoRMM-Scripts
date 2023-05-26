@@ -1,6 +1,7 @@
 <#
 TITLE: RingCentral App Deployment [WIN]
-PURPOSE: Script to install or uninstall the RingCentral App (SilentUnstallHQ Template)
+PURPOSE: Script to install or uninstall the RingCentral App using SilentUnstallHQ's PSAppDeployToolkit
+Reference URL: https://silentinstallhq.com/libreoffice-install-and-uninstall-powershell/
 CREATOR: Dan Meddock
 CREATED: 26MAY2023
 LAST UPDATED: 26MAY2023

@@ -1,7 +1,7 @@
 <#
 TITLE: McAfee Consumer Product Removal Tool [WIN]
 PURPOSE: Script to install McAfee Consumer Product Removal Tool using SilentUnstallHQ's PSAppDeployToolkit
-Reference URL: https://silentinstallhq.com/malwarebytes-install-and-uninstall-powershell/
+Reference URL: https://silentinstallhq.com/run-the-mcafee-consumer-product-removal-tool-mcpr-with-powershell/
 CREATOR: Dan Meddock
 CREATED: 23JAN2023
 LAST UPDATED: 26MAY2023
