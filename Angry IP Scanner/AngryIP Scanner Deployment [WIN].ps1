@@ -47,10 +47,10 @@ Try{
 	}
 	
 	# Clean up install files
-    Write-Host "Cleaning up temporary files..."
-    Remove-Item -Path $appZipPath -Recurse -Force
-    Remove-Item -Path $appPath -Recurse -Force
-    Exit 0
+    	Write-Host "Cleaning up temporary files..."
+    	Remove-Item -Path $appZipPath -Recurse -Force
+    	Remove-Item -Path $appPath -Recurse -Force
+   	Exit 0
 	
 }Catch{
 	# Catch any errors thrown and exit with an error
