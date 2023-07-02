@@ -43,11 +43,14 @@ try {
     if (!(Test-Path $workingDir -PathType Container)){New-Item -Path $workingDir -ItemType Directory -Force | Out-Null}
 
     # Download the latest Elevate UC MSI installer
-    Write-Host "Downloading the latest version of Elevate UC."
+    Write-Host "Downloading the latest version of the Elevate UC application."
     Invoke-WebRequest -OutFile $elevateInstaller -Uri $downloadURL
 
+	# Determine if this is an updgrade or install
+	if (!(Test-Path -path "C:\Program Files\Elevate UC")){$installType = "Installing"}else{$installType = "Updating"}
+	
     # Start Elevate UC installation silently
-    Write-Host "Updating/Installing the latest version of Elevate UC."
+    Write-Host "$installType the latest version of Elevate UC."
     Start-Process -FilePath msiexec -ArgumentList "/I `"$elevateInstaller`" /qn" -Wait
 
     # Set shortcut paths
@@ -56,18 +59,20 @@ try {
     $smPath = "$([Environment]::GetFolderPath('CommonPrograms'))\Elevate UC.lnk"
 
     # Create a shortcut for the application on the Desktop
-    Write-Host "Creating a desktop shortcut for Elevate UC."
+    Write-Host "Creating a desktop shortcut and start menu entry for Elevate UC."
     $WshShell = New-Object -ComObject WScript.Shell
     $Shortcut = $WshShell.CreateShortcut($scPath)
     $Shortcut.TargetPath = $appPath
     $Shortcut.Arguments = "-show"
     $Shortcut.Save()
+	
+	# Output install/update was successful
+	if ($installType -eq "Installing"){$installType = "installation"}else{$installType = "update"}
+	Write-Host "Elevate UC $installType completed successfully."
 
 } catch {
     # Output any errors that are generated
     Write-Error $_.Exception.Message
 }
 
-# Exit with success
-Write-Host "Elevate UC update/installation completed successfully."
-#Exit 0
+Exit 0
