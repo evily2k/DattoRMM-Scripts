@@ -44,7 +44,7 @@ function checkTLS {
 		# Output the result
 		if ($protocolEnabled) {
 			Write-Host "TLS 1.0 is enabled."
-			#exit 1
+			exit 1
 		} else {
 			Write-Host "TLS 1.0 is not enabled."
 			if ($tls12Enabled -eq 1) {
@@ -52,7 +52,7 @@ function checkTLS {
 			} else {
 				Write-Host "TLS 1.2 is not enabled."
 			}
-			#exit 0
+			exit 0
 		}
 	}Catch{
 		Write-Error "An error occurred: $($_.Exception.Message)"
