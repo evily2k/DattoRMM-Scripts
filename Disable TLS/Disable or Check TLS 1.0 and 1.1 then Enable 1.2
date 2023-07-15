@@ -1,16 +1,16 @@
 <#
 TITLE: DisableAndCheck-TLS [WIN]
-PURPOSE: This script will disable TLS 1.0 and TLS 1.1 and enables TLS 1.2; can also be used to check if TLS 1.0 and 1.1 is disabled.
+PURPOSE: This script will disable TLS 1.0 and TLS 1.1 and enables TLS 1.2 and TLS 1.3; can also be used to check if TLS 1.0 and 1.1 is disabled.
 CREATOR: Dan Meddock
 CREATED: 10JUL2023
-LAST UPDATED: 11JUL2023
+LAST UPDATED: 12JUL2023
 #>
 
 # Declarations
 
 # Disable TLS 1.0 and TLS 1.1 registry settings for client and server
-$DisableTLS = $env:DisableTLS
-#$DisableTLS = "False"
+#$DisableTLS = $env:DisableTLS
+$DisableTLS = "True"
 $TLSprotocolsKey = "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols"
 $dotNet35x32 = "HKLM:\SOFTWARE\Microsoft\.NETFramework\v2.0.50727"
 $dotNet35x64 = "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v2.0.50727"
@@ -19,11 +19,14 @@ $dotNet4x64 = "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319"
 $tls10Key = Join-Path -Path $TLSprotocolsKey -ChildPath "TLS 1.0"
 $tls11Key = Join-Path -Path $TLSprotocolsKey -ChildPath "TLS 1.1"
 $tls12Key = Join-Path -Path $TLSprotocolsKey -ChildPath "TLS 1.2"
+$tls13Key = Join-Path -Path $TLSprotocolsKey -ChildPath "TLS 1.3"
 $reg32bWinHttp = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\WinHttp"
 $reg64bWinHttp = "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Internet Settings\WinHttp"
 $regWinHttpDefault = "DefaultSecureProtocols"
 $regWinHttpValue = "0x00000800"
 $tls12Enabled = Get-ItemPropertyValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client' -Name 'Enabled' -ErrorAction SilentlyContinue
+$osVersion = (Get-CimInstance -ClassName Win32_OperatingSystem).Version
+$osInfo = Get-WmiObject -Class Win32_OperatingSystem
 
 # Functions
 
@@ -85,27 +88,102 @@ function disableTLS {
 		Set-ItemProperty -Path "$tls12Key\Server" -Name "Enabled" -Value 1 -Force
 		Set-ItemProperty -Path "$tls12Key\Server" -Name "DisabledByDefault" -Value 0 -Force
 		
-		# for Windows x86
-		New-ItemProperty -Path $reg32bWinHttp -Name $regWinHttpDefault -Value $regWinHttpValue -PropertyType DWORD
-		# for Windows x64
-		New-ItemProperty -Path $reg64bWinHttp -Name $regWinHttpDefault -Value $regWinHttpValue -PropertyType DWORD
+		# Enable TLS 1.3 for client and server
+		# Check if device is Windows 10 version 1803 or Windows Server 2019 and enable TLS 1.3
+		if (($osVersion -ge '10.0.17134*') -and ($osInfo.Caption -notlike '*Server*')){
+			Write-Host "Device is running Windows 10 version 1803 or newer. Enabling TLS 1.3."
+			New-Item -Path "$tls13Key\Client" -Force | Out-Null
+			Set-ItemProperty -Path "$tls13Key\Client" -Name "Enabled" -Value 1 -Force
+			Set-ItemProperty -Path "$tls13Key\Client" -Name "DisabledByDefault" -Value 0 -Force
+			New-Item -Path "$tls13Key\Server" -Force | Out-Null
+			Set-ItemProperty -Path "$tls13Key\Server" -Name "Enabled" -Value 1 -Force
+			Set-ItemProperty -Path "$tls13Key\Server" -Name "DisabledByDefault" -Value 0 -Force
+		}elseif(($osVersion -ge '10.0.17763*') -and ((Get-WmiObject -Class Win32_OperatingSystem).Caption -ge '*2019*')){
+			Write-Host "Device is running Windows Server 2019. Enabling TLS 1.3."
+			New-Item -Path "$tls13Key\Client" -Force | Out-Null
+			Set-ItemProperty -Path "$tls13Key\Client" -Name "Enabled" -Value 1 -Force
+			Set-ItemProperty -Path "$tls13Key\Client" -Name "DisabledByDefault" -Value 0 -Force
+			New-Item -Path "$tls13Key\Server" -Force | Out-Null
+			Set-ItemProperty -Path "$tls13Key\Server" -Name "Enabled" -Value 1 -Force
+			Set-ItemProperty -Path "$tls13Key\Server" -Name "DisabledByDefault" -Value 0 -Force
+		}else {
+			Write-Host "Device does not support TLS 1.3."
+		}
 		
-		# Enable TLS1.2 for .Net 
+		# Configure WinHTTP for Windows x86
+		New-ItemProperty -Path $reg32bWinHttp -Name $regWinHttpDefault -Value $regWinHttpValue -PropertyType DWORD -ErrorAction SilentlyContinue
+		# Configure WinHTTP for Windows x64
+		New-ItemProperty -Path $reg64bWinHttp -Name $regWinHttpDefault -Value $regWinHttpValue -PropertyType DWORD -ErrorAction SilentlyContinue
+		
+		# Enable TLS1.2 for .Net 3.5 or 2.0
+		If (-Not (Test-Path $dotNet35x64)){
+			New-Item -path "$dotNet4x64" -Force | Out-Null
+		}
+		If (-Not (Test-Path $dotNet35x32)){
+			New-Item -path "$dotNet4x32" -Force | Out-Null
+		}
 		Set-ItemProperty -Path "$dotNet35x32" -Name "SystemDefaultTlsVersions" -Value 1 -Force
 		Set-ItemProperty -Path "$dotNet35x64" -Name "SystemDefaultTlsVersions" -Value 1 -Force
 		Set-ItemProperty -Path "$dotNet35x32" -Name "SchUseStrongCrypto" -Value 1 -Force
 		Set-ItemProperty -Path "$dotNet35x64" -Name "SchUseStrongCrypto" -Value 1 -Force
+		
+		# Enable TLS1.2 for .Net 4.х
+		If (-Not (Test-Path $dotNet4x64)){
+			New-Item -path "$dotNet4x64" -Force | Out-Null
+		}
+		If (-Not (Test-Path $dotNet4x32)){
+			New-Item -path "$dotNet4x32" -Force | Out-Null
+		}
 		Set-ItemProperty -Path "$dotNet4x32" -Name "SystemDefaultTlsVersions" -Value 1 -Force
 		Set-ItemProperty -Path "$dotNet4x64" -Name "SystemDefaultTlsVersions" -Value 1 -Force
 		Set-ItemProperty -Path "$dotNet4x32" -Name "SchUseStrongCrypto" -Value 1 -Force
 		Set-ItemProperty -Path "$dotNet4x64" -Name "SchUseStrongCrypto" -Value 1 -Force
 		
-		# Restart the machine for changes to take effect
+		# Message to restart the machine for changes to take effect
 		Write-Host "TLS 1.2 has been enabled."
 		Write-Host "TLS 1.0 and TLS 1.1 have been disabled. Restart the machine for changes to take effect."
+		
 	}Catch{
 		Write-Error "An error occurred: $($_.Exception.Message)"
 	}
+}
+
+Function Disable-Rc4Ciphers{
+ 
+    $Path = 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Ciphers\'
+ 
+    New-Item -Path "$Path$('RC4 128')$([char]0x2215)128" -Force
+    New-ItemProperty -Path "$Path$('RC4 128')$([char]0x2215)128" -PropertyType DWORD -Value '0' -Name 'Enabled'
+ 
+    New-Item -Path "$Path$('RC4 64')$([char]0x2215)128" -Force
+    New-ItemProperty -Path "$Path$('RC4 64')$([char]0x2215)128" -PropertyType DWORD -Value '0' -Name 'Enabled'
+
+    New-Item -Path "$Path$('RC4 56')$([char]0x2215)128" -Force
+    New-ItemProperty -Path "$Path$('RC4 56')$([char]0x2215)128" -PropertyType DWORD -Value '0' -Name 'Enabled'
+ 
+    New-Item -Path "$Path$('RC4 40')$([char]0x2215)128" -Force
+    New-ItemProperty -Path "$Path$('RC4 40')$([char]0x2215)128" -PropertyType DWORD -Value '0' -Name 'Enabled'
+}
+
+ Function Disable-Rc2Ciphers{
+ 
+    $Path = 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Ciphers\'
+ 
+    New-Item -Path "$Path$('RC2 128')$([char]0x2215)128" -Force
+    New-ItemProperty -Path "$Path$('RC2 128')$([char]0x2215)128" -PropertyType DWORD -Value '0' -Name 'Enabled'
+
+    New-Item -Path "$Path$('RC2 56')$([char]0x2215)128" -Force
+    New-ItemProperty -Path "$Path$('RC2 56')$([char]0x2215)128" -PropertyType DWORD -Value '0' -Name 'Enabled'
+ 
+    New-Item -Path "$Path$('RC2 40')$([char]0x2215)128" -Force
+    New-ItemProperty -Path "$Path$('RC2 40')$([char]0x2215)128" -PropertyType DWORD -Value '0' -Name 'Enabled'
+}
+ 
+ Function Disable-DesCiphers{
+    $Path = 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Ciphers\'
+ 
+    New-Item -Path "$Path$('DES 56')$([char]0x2215)56" -Force
+    New-ItemProperty -Path "$Path$('DES 56')$([char]0x2215)56" -PropertyType DWORD -Value '0' -Name 'Enabled'
 }
 
 # Main
@@ -113,6 +191,9 @@ function disableTLS {
 if ($disableTLS -eq "True"){
 	Write-Host "Disabling TLS 1.0 and 1.1 and enabling TLS 1.2. Please Reboot the device once script completes to finish applying changes."
 	disableTLS
+	Disable-Rc4Ciphers
+	Disable-Rc2Ciphers
+	Disable-DesCiphers
 }else{
 	Write-Host "Checking if TLS 1.0 and/or 1.1 is enabled."
 	checkTLS
