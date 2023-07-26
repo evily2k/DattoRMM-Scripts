@@ -1,0 +1,40 @@
+<#
+TITLE: Enabled TLS 1.2 with Best Practices (IIS Crypto) [WIN]
+PURPOSE: This script will disable TLS 1.0 and TLS 1.1 and enables TLS 1.2 and disables all the weak ciphers. Use IISCrypto CLI tool and custom template.
+CREATOR: Dan Meddock
+CREATED: 11JUL2023
+LAST UPDATED: 11JUL2023
+#>
+
+# Declarations
+$tempFolder = "C:\Temp"
+$IISCryptoZip = "IISCrypto.zip"
+$IISCryptoCLI = "IISCryptoCli.exe"
+$date = Get-Date -Format "yyyy-MM-dd"
+
+# Main
+Try{
+	# Check if Temp folder exsists and if not create item
+	If(!(test-path $tempFolder -PathType Leaf)){new-item $tempFolder -ItemType Directory -force | Out-Null}	
+	
+	# Copy installer to device
+	Write-Host "Transferring $IIS Crypto tool to device..."
+	#Copy-Item $IISCryptoZip -Destination $tempFolder -force
+	
+	# Extract zip folder contents
+	Write-Host "Extracting IIS Crypto files to device..."
+	Expand-Archive -literalpath C:\Temp\$IISCryptoZip -DestinationPath $tempFolder
+
+	# Run the IIS Crypto CLI tool with the specified configuration template
+	Write-Host "Starting IIS Crypto and using template to apply correct TLS settings..."
+	start-process C:\temp\IISCrypto\iiscryptocli.exe -argumentlist "/backup TLSbackup-$date.reg /template C:\temp\iiscrypto\Disable-TLS10andTLS11-Enables-TLS12.ictpl" -NoNewWindow -Wait
+	sleep 30
+
+	# Restart the IIS service for the changes to take effect
+	Write-Host "Restarting the IIS service for the changes to take effect"
+	Restart-Service -Name W3SVC -Force
+	Exit 0
+	
+}catch{
+	Write-Error $_.Exception.Message 
+}
