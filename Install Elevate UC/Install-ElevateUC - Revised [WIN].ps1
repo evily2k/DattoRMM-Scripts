@@ -3,7 +3,7 @@ TITLE: Install-ElevateUC - Revised [WIN]
 PURPOSE: This script will kill all Elevate UC processes. Uninstalls Elevate if it's installed in AppData. Then it downloads the latest Elevate UC application. Once downloaded it will start the Elevate UC install silently. After the install it adds a shortcut to the desktop and start menu.
 CREATOR: Dan Meddock
 CREATED: 05APR2023
-LAST UPDATED: 02JUL2023
+LAST UPDATED: 26JUL2023
 #>
 
 # Declarations
@@ -28,8 +28,9 @@ try {
         if (Test-Path $appDataDir){
             # Attempts to uninstall Elevate UC from the AppData directory
             Write-Host "Found AppData installation for $($user.Name)."
-            Write-Host "Attempting to uninstall Elevate UC from the user directory."
-            Start-Process -FilePath "$appDataDir\Uninstall Elevate UC.exe" -ArgumentList "/S" -Wait
+            Write-Host "Attempting to remove Elevate UC from the user directory."
+			remove-item $appDataDir -Recurse
+			#Start-Process -FilePath "$appDataDir\Uninstall Elevate UC.exe" -ArgumentList "/S" -Wait
         }
         if (Test-Path $programFilesDir){
             # Attempts to uninstall Elevate UC from the Program Files directory

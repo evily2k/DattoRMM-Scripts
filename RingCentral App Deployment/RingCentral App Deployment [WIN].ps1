@@ -1,15 +1,14 @@
 <#
 TITLE: RingCentral App Deployment [WIN]
-PURPOSE: Script to install or uninstall the RingCentral App using SilentUnstallHQ's PSAppDeployToolkit
-Reference URL: https://silentinstallhq.com/libreoffice-install-and-uninstall-powershell/
+PURPOSE: Script to install or uninstall the RingCentral App (SilentUnstallHQ Template)
 CREATOR: Dan Meddock
-CREATED: 26MAY2023
-LAST UPDATED: 26MAY2023
+CREATED: 19JUN2023
+LAST UPDATED: 19JUN2023
 #>
 
 # Declarations
 $workingDir = "C:\Temp"
-$appZip = 'RingCentralApp.zip'
+$appZip = 'RingCentralApp2.zip'
 $installPackage = "Deploy-RingCentralApp.ps1"
 $appName = "RingCentral App"
 
@@ -45,15 +44,21 @@ Try{
 		Write-Host "Starting uninstall of $appName."
 		& $uninstall
 	}
+
+	# Add firewall rules so users dont need admin rights to set the rules by theirself
+	Write-Host "Adding firewall rules for Ring Central."
+	New-NetFirewallRule -DisplayName "Allow RingCentral - All Networks" -Direction Inbound -Program "C:\Program Files\RingCentral\RingCentral.exe"  -Action Allow -Enabled True
+	New-NetFirewallRule -DisplayName "Allow RingCentral - All Networks" -Direction Outbound -Program "C:\Program Files\RingCentral\RingCentral.exe"  -Action Allow -Enabled True
 	
 	# Clean up install files
-    Write-Host "Cleaning up temporary files..."
-    Remove-Item -Path $appZipPath -Recurse -Force
-    Remove-Item -Path $appPath -Recurse -Force
-    Exit 0
+	Write-Host "Cleaning up temporary files..."
+	Sleep 10
+	Remove-Item -Path $appZipPath -Recurse -Force
+	Remove-Item -Path $appPath -Recurse -Force
 	
 }Catch{
 	# Catch any errors thrown and exit with an error
 	Write-Error $_.Exception.Message 
 	Exit 1
 }
+Exit 0
