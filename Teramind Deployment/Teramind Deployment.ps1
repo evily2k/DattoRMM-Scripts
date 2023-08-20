@@ -67,5 +67,4 @@ if($install -eq "True"){
 	Write-Host "Finished removing Teramind with the $removalTool."
 }
 # Exit with a success
-
 Exit 0

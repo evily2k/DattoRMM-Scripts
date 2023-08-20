@@ -11,11 +11,11 @@ $testActivation = Get-CimInstance SoftwareLicensingProduct -Filter "Name like 'W
 
 # Main
 Try{
-	if($testActivation -eq $null){
+	if($testActivation.LicenseStatus -eq $null){
 		Write-Host "Windows activation check failed to run. Please investigate."
 		#Exit 1
 	}
-	if ($testActivation -ne "1"){
+	if($testActivation.LicenseStatus -ne "1"){
 		Write-Host "Windows is not permanently activated."
 		#Exit 1
 	}else{

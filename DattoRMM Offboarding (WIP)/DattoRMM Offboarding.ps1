@@ -1,9 +1,9 @@
 <#
-TITLE: DattoRMM Offboarding [WIN]
-PURPOSE: This script creates a scheduled task that runs a script to check if Datto is uninstalled; if it is, it uninstalls Huntress at logon.
+TITLE: DattoRMM Offboarding Tool Removal [WIN]
+PURPOSE: This script creates a scheduled task that runs a script to check if Datto is installed; if it is it uninstalls Huntress
 CREATOR: Dan Meddock
 CREATED: 01JAN2023
-LAST UPDATED: 01JAN2023
+LAST UPDATED: 20AUG2023
 #>
 
 # Declarations
@@ -11,19 +11,23 @@ $workingDir = "C:\KEworking"
 $dattoMonitor = "checkDatto.ps1"
 $monitorDir = $workingDir + "\" + $dattoMonitor
 
-# Check if the working directory exists
-If(!(test-path $workingDir -PathType Leaf)){new-item $workingDir -ItemType Directory -force}
+# Check if Temp folder exists
+If(!(test-path $workingDir -PathType Leaf)){new-item $workingDir -ItemType Directory -force | Out-Null}
 
 # DattoRMM monitor script to uninstall Huntress when Datto is uninstalled
 $monitorScript = @'
 function checkDatto {
 	$taskname = "Datto Offboarding"
+	$eventType = "Information"
+	[string]$eventLogOutput = "DattoRMM is missing from this device. Uninstalling Huntress."
 	if (get-service cagservice -erroraction silentlycontinue){
 		continue
 	}else{
 		start-process "C:\Program Files\Huntress\Uninstall.exe" -argumentlist "/S"
 		Start-Sleep -Seconds 5
 		Unregister-ScheduledTask -TaskName $taskname -Confirm:$false
+		if (![System.Diagnostics.EventLog]::SourceExists($taskname)){New-Eventlog -LogName Application -Source $taskname}
+		Write-EventLog -LogName Application -Source $taskname -EntryType $eventType -EventId 6910 -Message ($eventLogOutput | out-string)
 	}
 }
 checkDatto
