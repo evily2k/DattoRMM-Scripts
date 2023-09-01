@@ -3,14 +3,13 @@ TITLE: Teramind Deployment [WIN]
 PURPOSE: Installs or uninstalls the Teramind application silently
 CREATOR: Dan Meddock
 CREATED: 28JUL2023
-LAST UPDATED: 28JUL2023
+LAST UPDATED: 03AUG2023
 #>
 
 # Declarations
 $tempFolder = "C:\Temp"
 $application = 'teramind_agent_x64_s.msi'
 $removalTool = 'teramind-remover.exe'
-#$appInstaller = "C:\temp\Teramind\teramind_agent_x64_s.msi"
 $appInstaller = "C:\temp\teramind_agent_x64_s.msi"
 $removalToolDir = "C:\temp\teramind-remover.exe"
 $install = $env:install
@@ -18,7 +17,7 @@ $install = $env:install
 # Main
 Function installTeramind {
 	Try{
-		# Check if Temp folder exsists
+		# Check if Temp folder exists
 		If(!(test-path $tempFolder -PathType Leaf)){new-item $tempFolder -ItemType Directory -force | Out-Null}
 			
 		# Transfer installers to computer
@@ -49,6 +48,30 @@ Function removeTeramind {
 		# Start application install
 		Write-Host "Starting the $removalTool tool."
 		Start-process $removalToolDir -argumentlist "/silent"; sleep 30
+		
+		# Check if install directory has been deleted
+		$a = 0
+		if(test-path "C:\ProgramData\{4CEC2908-5CE4-48F0-A717-8FC833D8017A}"){
+			Write-Host "Installation directory detected still. Teramind removal may be incomplete."
+			$a++
+		}else{
+			Write-Host "Installation directory was removed successfully."
+		}
+		
+		# Check if service still exists
+		if(Get-Service tsvchst -erroraction silentlycontinue){
+			Write-Host "Teramind service detected. Teramind removal may be incomplete."
+			(Get-Service tsvchst).status
+			$a++
+		}else{
+			Write-Host "Teramind service was removed successfully."
+		}
+		
+		# If directory or service exist still then exit with an error
+		if($a -ge 1){
+			Write-Host "One or more of Teramind's components failed to remove. Please investigate."
+			Exit 1
+		}
 			
 	}catch{
 		# Catch any errors thrown and exit with an error
@@ -67,4 +90,5 @@ if($install -eq "True"){
 	Write-Host "Finished removing Teramind with the $removalTool."
 }
 # Exit with a success
+
 Exit 0

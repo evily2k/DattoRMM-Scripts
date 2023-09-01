@@ -8,8 +8,8 @@ LAST UPDATED: 28AUG2023
 
 # Declarations
 $tempFolder = "C:\Temp"
-$application = 'VisionInstaller.msi'
-$appInstaller = "C:\Temp\VisionInstaller.msi"
+$veriato = 'VisionInstaller.msi'
+$appVeriato = "C:\Temp\VisionInstaller.msi"
 	
 # Main
 Try{
@@ -18,16 +18,16 @@ Try{
 		
 	# Transfer installers to computer
 	Write-Host "Transferring installer to device."
-	Copy-Item $application -Destination $appInstaller -force
-	$application = $application -replace '.msi',''
+	Copy-Item $veriato -Destination $appVeriato -force
+	$veriato = $veriato -replace '.msi',''
 	
 	# Start application install
-	Write-Host "Starting install of $application."
-	Start-process msiexec.exe -argumentlist "/I $appInstaller /qn /L*V C:\temp\VeriatoInstall.log"; sleep 30
+	Write-Host "Starting install of $veriato."
+	Start-process msiexec.exe -argumentlist "/I $appVeriato /qn /L*V C:\temp\VeriatoInstall.log"; sleep 30
 	Get-Content -Path "C:\temp\VeriatoInstall.log"
 
 	# Clean up files
-	Remove-Item -Path $appInstaller -Force -ErrorAction SilentlyContinue
+	Remove-Item -Path $appVeriato -Force -ErrorAction SilentlyContinue
 	Remove-Item -Path "C:\temp\VeriatoInstall.log" -Force -ErrorAction SilentlyContinue
 
 }catch{
@@ -37,5 +37,5 @@ Try{
 }
 
 # Exit with a success
-Write-Host "Finished installing $application."
+Write-Host "Finished installing $appVeriato."
 Exit 0

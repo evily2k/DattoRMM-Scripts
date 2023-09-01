@@ -1,0 +1,13 @@
+Currently, there is no delete user option in the account but this request can still be completed by doing the following.
+ 
+1. Login to https://app.veriatocloud.com that is the management console.
+2. Click Configuration > Groups and Policies > Groups > then create a group, name it "Deleted users"
+*Start adding or putting the machine/ user you wish to be deleted to that group & make sure NO RECORDING policy is applied to the group.
+
+After 30 days the machine/ user would automatedly get moved to historic agents.
+
+And also make sure you delete the below mentioned folders:
+C:\windows\syswow64\winipdat\winipdat.log
+\\localhost\C$\windows\winipbin\
+
+We appreciate you working with us.
