@@ -1,9 +1,9 @@
 <#
 TITLE: Install Veriato Application [WIN]
-PURPOSE: Installs the specified version of Pulse Secure Client
+PURPOSE: Installs the Veriato Application agent
 CREATOR: Dan Meddock
-CREATED: 19APR2022
-LAST UPDATED: 15MAY2022
+CREATED: 16AUG2023
+LAST UPDATED: 28AUG2023
 #>
 
 # Declarations
@@ -25,6 +25,10 @@ Try{
 	Write-Host "Starting install of $application."
 	Start-process msiexec.exe -argumentlist "/I $appInstaller /qn /L*V C:\temp\VeriatoInstall.log"; sleep 30
 	Get-Content -Path "C:\temp\VeriatoInstall.log"
+
+	# Clean up files
+	Remove-Item -Path $appInstaller -Force -ErrorAction SilentlyContinue
+	Remove-Item -Path "C:\temp\VeriatoInstall.log" -Force -ErrorAction SilentlyContinue
 
 }catch{
 	# Catch any errors thrown and exit with an error
