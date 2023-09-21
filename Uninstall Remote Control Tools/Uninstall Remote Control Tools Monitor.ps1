@@ -27,10 +27,10 @@ if ($appCount -eq 0){
 	write-host '<-Start Result->'
 	write-host "STATUS=Undetected"
 	write-host '<-End Result->'
-	#exit 0
+	exit 0
 }else{
 	write-host '<-Start Result->'
 	write-host "STATUS=Detected"
 	write-host '<-End Result->'			
-	#exit 1
+	exit 1
 }

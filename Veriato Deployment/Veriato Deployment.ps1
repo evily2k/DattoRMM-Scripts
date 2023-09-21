@@ -68,6 +68,7 @@ Function removeVeriato {
 }
 
 # Main
+if($client -
 
 # Run the installer or the removal tool
 if($install -eq "True"){
