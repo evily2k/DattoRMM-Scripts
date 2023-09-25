@@ -1,3 +1,11 @@
+<#
+TITLE: Schedule Task to Lock after Idle for 20 Minutes [WIN]
+PURPOSE: Creates a scheduled task to run the logoff.ps1 script
+CREATOR: Dan Meddock
+CREATED: 25SEP2023
+LAST UPDATED: 25SEP2023
+#>
+
 # Declarations
 $workingDir = "C:\temp"
 $installScript = "C:\temp\logoff.ps1"
