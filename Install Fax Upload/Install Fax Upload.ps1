@@ -33,7 +33,7 @@ Try {
 	
 	# Set directory to C:\temp and use 7zip to extract the EXE file's content
 	Set-Location $tempFolder
-	Start-Process $7zipEXE -argumentlist "x $appInstaller -o*" -wait
+	Start-Process $7zipEXE -argumentlist "x $appInstaller -o*" -wait -nonewwindow
 		
 	# Run the extracted EXE file silent to install Fax Upload
 	Write-Host "Starting Fax Upload install."
