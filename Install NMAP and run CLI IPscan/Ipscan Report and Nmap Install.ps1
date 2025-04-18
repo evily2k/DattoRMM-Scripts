@@ -49,27 +49,25 @@ function ipscan {
 	Write-Host -NoNewLine 'Getting Ready...'
 
 	# Hostname
-	$global:hostName = [System.Net.Dns]::GetHostName()
+	$hostName = [System.Net.Dns]::GetHostName()
 
 	# Check Internet Connection and Get External IP
-	$ProgressPreference = 'SilentlyContinue'
 	$hotspotRedirectionTest = irm "http://www.msftncsi.com/ncsi.txt"
-	$global:externalIP = if ($hotspotRedirectionTest -eq "Microsoft NCSI") {irm "http://ifconfig.me/ip"} else {"No Internet or Redirection"}
-	$ProgressPreference = 'Continue'
+	$externalIP = if ($hotspotRedirectionTest -eq "Microsoft NCSI") {irm "http://ifconfig.me/ip"} else {"No Internet or Redirection"}
 
 	# Find Gateway
-	$global:gateway = (Get-NetRoute -DestinationPrefix 0.0.0.0/0 | Select-Object -First 1).NextHop
+	$gateway = (Get-NetRoute -DestinationPrefix 0.0.0.0/0 | Select-Object -First 1).NextHop
 	$gatewayParts = $gateway -split '\.'
-	$global:gatewayPrefix = "$($gatewayParts[0]).$($gatewayParts[1]).$($gatewayParts[2])."
+	$gatewayPrefix = "$($gatewayParts[0]).$($gatewayParts[1]).$($gatewayParts[2])."
 
 	# Internal IP
-	$global:internalIP = (Get-NetIPAddress | Where-Object {$_.AddressFamily -eq 'IPv4' -and $_.InterfaceAlias -ne 'Loopback Pseudo-Interface 1' -and ($_.IPAddress -like "$gatewayPrefix*")}).IPAddress
+	$internalIP = (Get-NetIPAddress | Where-Object {$_.AddressFamily -eq 'IPv4' -and $_.InterfaceAlias -ne 'Loopback Pseudo-Interface 1' -and ($_.IPAddress -like "$gatewayPrefix*")}).IPAddress
 
 	# Host adapter type
-	$global:adapter = (Get-NetIPAddress -InterfaceAlias "*Ethernet*","*Wi-Fi*" -AddressFamily IPv4 | Where-Object { $_.IPAddress -like "$gatewayPrefix*" }).InterfaceAlias
+	$adapter = (Get-NetIPAddress -InterfaceAlias "*Ethernet*","*Wi-Fi*" -AddressFamily IPv4 | Where-Object { $_.IPAddress -like "$gatewayPrefix*" }).InterfaceAlias
 
 	# My Mac
-	$global:myMac = (Get-NetAdapter -Name $adapter).MacAddress.Replace('-',':')
+	$myMac = (Get-NetAdapter -Name $adapter).MacAddress.Replace('-',':')
 
 	# Convert subnet prefix to readable number
 	$prefixLength = (Get-NetIPAddress | Where-Object {$_.AddressFamily -eq 'IPv4' -and $_.InterfaceAlias -ne 'Loopback Pseudo-Interface 1'} | Select-Object -First 1).PrefixLength
@@ -106,6 +104,15 @@ function ipscan {
 	Write-Progress -Activity "Listening" -Status "Done" -PercentComplete 100
 	Start-Sleep -Seconds 1
 	Write-Progress -Activity "Listening" -Completed	
+	
+	# Host network data collection finished
+	Write-Host 'Done';Write-Host
+
+	# Output host info
+	$hostOutput | Out-String -Stream | Where-Object { $_.Trim().Length -gt 0 } | Write-Host
+	
+	# Start gathering network data
+	Write-Host;Write-Host -NoNewLine 'Running IPscan...'
 
 	# Filter for Reachable or Stale states and select only IP and MAC address
 	$arpInit = Get-NetNeighbor | Where-Object { $_.State -eq "Reachable" -or $_.State -eq "Stale" } | Select-Object -Property IPAddress, LinkLayerAddress
@@ -167,18 +174,14 @@ function ipscan {
 	
 	# Network data collection finished
 	Write-Host 'Done';Write-Host
-
-	# Output host info
-	$hostOutput | Out-String -Stream | Where-Object { $_.Trim().Length -gt 0 } | Write-Host
-	$ProgressPreference = 'SilentlyContinue'
-
+	
 	# Table header
 	$DisplayA = ("{0,-18} {1,-26} {2, -14} {3}" -f 'MAC ADDRESS', 'VENDOR', 'IP ADDRESS', 'REMOTE HOSTNAME')
-	Write-Host; Write-Host $DisplayA
+	Write-Host $DisplayA
 	Write-Host "================================================================================================="
 	
 	# Now display all collected output
-	$global:displayBuffer | ForEach-Object { Write-Host $_ }
+	$displayBuffer | ForEach-Object { Write-Host $_ }
 }
 
 Try{
