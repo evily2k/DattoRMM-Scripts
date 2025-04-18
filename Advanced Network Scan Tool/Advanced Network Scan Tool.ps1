@@ -9,6 +9,7 @@ LAST UPDATED: 18APR2025
 # Main
 
 function nmap {	
+	# Check Windows registry if nmap is installed
 	$programName = "nmap"	
 	$installed = ("HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall","HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall") | % {gci -Path $_ | % {get-itemproperty $_.pspath} |
 	Where-Object { $_.DisplayName -like "*$programName*" }}
@@ -29,14 +30,14 @@ function nmap {
 		$installerPath = Join-Path $env:TEMP $FileName
 		(New-Object System.Net.WebClient).DownloadFile($DownloadURL, $installerPath)
 		
-			if (Test-Path $installerPath) {
-				Start-Process -FilePath $installerPath -ArgumentList "/S" -Wait
-				Write-Output "Nmap installer executed successfully."
-			} else {
-				Write-Error "Installer not found at $installerPath"
-			}
-	}
-	
+		# Install Nmap
+		if (Test-Path $installerPath) {
+			Start-Process -FilePath $installerPath -ArgumentList "/S" -Wait
+			Write-Output "Nmap installer executed successfully."
+		} else {
+			Write-Error "Installer not found at $installerPath"
+		}
+	}	
 }
 
 function Get-MacVendor($mac) {
@@ -187,7 +188,7 @@ function ipscan {
 
 function hostcards {
 	
-	# Output array to hold host info
+	# Array to hold network device info and output as hostcards
 	$HostCards = @()
 	
 	# Starting network device info gathering
@@ -210,8 +211,8 @@ function hostcards {
 				Hostname     = $null
 				MACAddress   = $null
 				Vendor       = $vendor
-				Duplex       = $null
-				LinkSpeed    = $null
+				#Duplex       = $null
+				#LinkSpeed    = $null
 				OpenPorts    = @()
 				Services     = @()
 			}
@@ -232,12 +233,13 @@ function hostcards {
 				}
 			} catch {}
 
-			# Local Interface info (Duplex + LinkSpeed — will show for local machine only)
+			<# Local Interface info (Duplex + LinkSpeed — will show for local machine only)
+			# THIS IS CURRENTLY BROKEN!
 			$adapter = Get-NetAdapter | Where-Object { $_.Status -eq "Up" }
 			if ($adapter) {
 				$HostInfo.Duplex    = $adapter.Duplex
 				$HostInfo.LinkSpeed = $adapter.LinkSpeed
-			}
+			}#>
 
 			# Nmap Scan: Open Ports and Services
 			$NmapPath = "C:\Program Files (x86)\Nmap\nmap.exe"
