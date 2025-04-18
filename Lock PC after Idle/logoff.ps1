@@ -18,7 +18,7 @@
 # * -Seconds 10 ( = 10 Seconds)
 # * -Minutes 10 ( = 10 Minutes)
 # * -Hours 10 ( = 10 Hours)
-#
+
 $idle_timeout = New-TimeSpan -Minutes 20
 
 # DO NOT CHANGE ANYTHING BELOW THIS LINE
